@@ -13,7 +13,7 @@ import {
   CardMedia,
 } from '@material-ui/core'
 // import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
-//import DeleteIcon from '@material-ui/icons/Delete'
+import DeleteIcon from '@material-ui/icons/Delete'
 // import MoreHorizIcon from '@material-ui/icons/MoreHoriz'
 import { useDispatch } from 'react-redux'
 import { deleteBookAsync } from '../../../redux/actions/book'
@@ -59,9 +59,9 @@ const Book = ({ book }: BookProps) => {
           size="small"
           color="primary"
           onClick={() => dispatch(deleteBookAsync(book.bookId))}
-        ></Button>
-
-        {/* <DeleteIcon style={{ fontSize: 'medium', color: '#3eb269' }} /> */}
+        >
+          <DeleteIcon style={{ fontSize: 'medium', color: '#3eb269' }} />
+        </Button>
       </CardActions>
     </Card>
   )

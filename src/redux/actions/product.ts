@@ -26,7 +26,7 @@ export function removeProduct(product: Product): ProductActions {
 }
 
 // Async action processed by redux-thunk middleware
-export function fetchProduct(productId: string) {
+export function fetchBook(productId: string) {
   return (dispatch: Dispatch) => {
     return fetch(`products/${productId}`)
       .then((resp) => resp.json())
