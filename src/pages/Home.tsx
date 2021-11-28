@@ -1,41 +1,95 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+
 import { Link } from 'react-router-dom'
 
-import { Product, AppState } from '../types'
-import { addProduct, removeProduct } from '../redux/actions'
+//import { Product, AppState } from '../types'
 
-const names = ['Apple', 'Orange', 'Avocado', 'Banana', 'Cucumber', 'Carrot']
+//import AddBook from '../components/Form/AddBook'
+//import { addProduct, removeProduct } from '../redux/actions'
+//import { AddBookAction, FetchBookACtion } from '../redux/actions/book'
+
+import { Container, AppBar } from '@material-ui/core'
+import useStyles from '../styles'
+//import styled from 'styled-components'
+import Books from '../components/Books/Books'
+import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography'
+
+// const Buttons = styled.div`
+//   display: flex;
+//   justify-content: right;
+//   flex: 1;
+// `
+// const Button = styled.button`
+//   display: flex;
+//   margin-right: 5px;
+//   justify-content: center;
+//   align-items: center;
+//   margin-top: 10px;
+//   border-radius: 5px;
+//   border: none;
+//   outline: none;
+//   padding: 5px;
+//   font-size: 0.8rem;
+// `
+// const LinkButton = styled(Link)`
+//   display: flex;
+//   margin-right: 5px;
+//   justify-content: right;
+//   align-items: center;
+//   margin-top: 10px;
+//   text-decoration: none;
+//   color: 'red';
+// `
 
 export default function Home() {
-  const dispatch = useDispatch()
-  const products = useSelector((state: AppState) => state.product.inCart)
+  const classes = useStyles()
 
-  const handleAddProduct = () => {
-    const product: Product = {
-      id: (+new Date()).toString(),
-      name: names[Math.floor(Math.random() * names.length)],
-      price: +(Math.random() * 10).toFixed(2),
-    }
-    dispatch(addProduct(product))
-  }
+  //const products = useSelector((state: AppState) => state.product.inCart)
 
   return (
     <>
-      <h1>Home page</h1>
-      {products.length <= 0 && <div>No products in cart</div>}
-      <ul>
-        {products.map((p) => (
-          <li key={p.id}>
-            <Link to={`/products/${p.id}`}>{`${p.name} - $${p.price}`}</Link>
+      <Container>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+              Booki
+            </Typography>
+            <Link
+              to="/Books"
+              style={{ color: 'inherit', textDecoration: 'inherit' }}
+            >
+              Books
+            </Link>
+            <Link
+              to="/AddBook"
+              style={{ color: 'inherit', textDecoration: 'inherit' }}
+            >
+              Add Book
+            </Link>
+            <Link
+              to="/Authors"
+              style={{ color: 'inherit', textDecoration: 'inherit' }}
+            >
+              Authors
+            </Link>
+            <Link
+              to="/AddAuthors"
+              style={{ color: 'inherit', textDecoration: 'inherit' }}
+            >
+              Add Authors
+            </Link>
 
-            {'  '}
+            <Link to="/Login">Login</Link>
+            <Link to="/SignUp" style={{ border: '3px solid #3eb269' }}>
+              Sign Up
+            </Link>
+          </Toolbar>
+        </AppBar>
+        <Typography variant="h5">Currently added books</Typography>
 
-            <button onClick={() => dispatch(removeProduct(p))}>Remove</button>
-          </li>
-        ))}
-      </ul>
-      <button onClick={handleAddProduct}>Add product</button>
+        <Books />
+      </Container>
     </>
   )
 }

@@ -14,7 +14,7 @@ export default function Product() {
   if (!product) {
     return <div>Product not found</div>
   }
-
+  console.log('products', product)
   return (
     <>
       <h1>Product page</h1>
