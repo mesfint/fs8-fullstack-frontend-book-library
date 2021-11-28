@@ -14,6 +14,7 @@ import useStyles from '../styles'
 import Books from '../components/Books/Books'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import Layout from '../components/Layout/Layout'
 
 // const Buttons = styled.div`
 //   display: flex;
@@ -46,6 +47,10 @@ export default function Home() {
   const classes = useStyles()
 
   //const products = useSelector((state: AppState) => state.product.inCart)
+
+  if (true) {
+    return <Layout>anything</Layout>
+  }
 
   return (
     <>
