@@ -1,3 +1,5 @@
+import { BooksState } from "./redux/books/books.reducer"
+
 // Action types
 export const ADD_PRODUCT = 'ADD_PRODUCT'
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT'
@@ -31,5 +33,6 @@ export type ProductState = {
 }
 
 export type AppState = {
-  product: ProductState
+  product: ProductState;
+  books: BooksState;
 }
