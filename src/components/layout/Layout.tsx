@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom'
 import Svg from '../svg/Svg'
 import { routerList } from '../../Routes'
 import { IconType } from '../svg/icons'
-import {useLocation} from 'react-router';
+import { useLocation } from 'react-router'
 
 const Layout: FunctionComponent = ({ children }) => {
   const [mobileBurger, setMobileBurger] = useState(false)
-  const location = useLocation();
-  console.log(location.pathname);
+  const location = useLocation()
+  console.log(location.pathname)
   return (
     <>
       <div>
@@ -64,7 +64,11 @@ const Layout: FunctionComponent = ({ children }) => {
                           <li key={index}>
                             <Link
                               to={route.path}
-                              className={`text-base rounded-lg flex items-center p-2 hover:bg-gray-100 group ${location.pathname === route.path ? 'text-gray-500 font-bold underline':'text-gray-900 font-normal'}`}
+                              className={`text-base rounded-lg flex items-center p-2 hover:bg-gray-100 group ${
+                                location.pathname === route.path
+                                  ? 'text-gray-500 font-bold underline'
+                                  : 'text-gray-900 font-normal'
+                              }`}
                             >
                               <Svg
                                 type={route.icon as IconType}
@@ -94,15 +98,10 @@ const Layout: FunctionComponent = ({ children }) => {
             </main>
             <footer>
               <p className="text-center text-sm text-gray-500 my-10">
-                © 2019-2021{' '}
-                <a
-                  href="https://themesberg.com"
-                  className="hover:underline"
-                  target="_blank"
-                >
-                  Themesberg
+                © 2021{' '}
+                <a href="@mesfint" className="hover:underline" target="_blank">
+                  MesfinT
                 </a>
-                . All rights reserved.
               </p>
             </footer>
           </div>

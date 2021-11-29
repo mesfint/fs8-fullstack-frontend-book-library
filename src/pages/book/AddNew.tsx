@@ -17,11 +17,10 @@ import { Book } from '../../models/Book'
 import ErrorMessage from '../../components/Error'
 import { useNavigate } from 'react-router-dom'
 
-
 const AddNew: VoidFunctionComponent = () => {
   const books = useSelector((state: AppState) => state?.books)
   const dispatch = useDispatch()
-  const history = useNavigate();
+  const history = useNavigate()
 
   const [formValue, setFormValue] = useState<Book>({
     isbn: 0,
@@ -67,7 +66,7 @@ const AddNew: VoidFunctionComponent = () => {
               <div className="w-full sm:w-auto sm:ml-auto mt-3 sm:mt-0" />
             </div>
             <div className="mt-5">
-              {books.error  && (<ErrorMessage error={books.error}/>)}
+              {books.error && <ErrorMessage error={books.error} />}
               <div className="form">
                 <div className="md:space-y-2 mb-3">
                   <span className="text-xs font-semibold text-gray-600 py-2">

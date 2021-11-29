@@ -3,25 +3,28 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { AppState } from '../../types'
-import { fetchBooks } from '../../redux/books/books.action'
+import { fetchAuthors } from '../../redux/authors/authors.action'
 import Layout from '../../components/layout/Layout'
-import { deleteBook } from '../../redux/books/books.action'
+import { deleteAuthor } from '../../redux/authors/authors.action'
 import Spinner from '../../components/Spinner'
 import ImageWithFallback from '../../components/Image'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
-const BookList: VoidFunctionComponent = () => {
-  const history = useNavigate()
+const AuthorList: VoidFunctionComponent = () => {
   const { id } = useParams()
-  const books = useSelector((state: AppState) => state?.books)
   const dispatch = useDispatch()
+  const history = useNavigate()
+  const authors = useSelector((state: AppState) => state?.authors)
+  const [isLoading, setIsLoading] = useState(false)
+
   useEffect(() => {
-    dispatch(fetchBooks())
+    dispatch(fetchAuthors())
   }, [])
-  if (books.loading) {
+  if (authors.loading) {
     return <Spinner />
   }
+
   return (
     <>
       <section className="py-1 bg-blueGray-50">
@@ -31,12 +34,12 @@ const BookList: VoidFunctionComponent = () => {
               <div className="flex flex-wrap items-center">
                 <div className="relative w-full px-4 max-w-full flex-grow flex-1">
                   <h3 className="font-semibold text-base text-blueGray-700">
-                    Books
+                    Authors
                   </h3>
                 </div>
                 <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
                   <Link
-                    to="/books/add"
+                    to="/authors/add"
                     className="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   >
                     Add new
@@ -52,47 +55,30 @@ const BookList: VoidFunctionComponent = () => {
                       #
                     </th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Title
+                      First Name
                     </th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Published Year
+                      Last Name
                     </th>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Quantity
-                    </th>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Rating
-                    </th>
+
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                       Action
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {books.books.map((book) => (
-                    <tr key={book.bookId}>
-                      <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  text-left text-blueGray-700 ">
-                        <ImageWithFallback
-                          src={book.coverImage}
-                          alt={book.title}
-                          className="h-20 w-20"
-                        />
-                      </th>
+                  {authors.authors.map((author) => (
+                    <tr key={author.authorId}>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
-                        {book.title}
+                        {author.firstName}
                       </td>
                       <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap ">
-                        {book.publishedYear}
+                        {author.lastName}
                       </td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
-                        {book.quantity}
-                      </td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
-                        {book.rating}
-                      </td>
+
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
                         <Link
-                          to="/books"
+                          to="/authors"
                           className="bg-yellow-200 text-black active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         >
                           Edit
@@ -100,9 +86,11 @@ const BookList: VoidFunctionComponent = () => {
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
                         <Link
-                          to="/books"
+                          to="/authors"
                           className="bg-red-500 text-white active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                          onClick={() => dispatch(deleteBook(book, history))}
+                          onClick={() =>
+                            dispatch(deleteAuthor(author, history))
+                          }
                         >
                           Delete
                         </Link>
@@ -118,4 +106,5 @@ const BookList: VoidFunctionComponent = () => {
     </>
   )
 }
-export default BookList
+
+export default AuthorList

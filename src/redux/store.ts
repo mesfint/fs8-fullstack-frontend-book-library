@@ -12,7 +12,7 @@ const initState: AppState = {
   product: {
     inCart: [],
   },
-  books: initialBooksState
+  books: initialBooksState,
 }
 
 export default function makeStore(initialState = initState) {
@@ -21,8 +21,8 @@ export default function makeStore(initialState = initState) {
   let composeEnhancers = compose
 
   if (process.env.NODE_ENV === 'development') {
-    const immutableRedux = reduxImmutableState({});
-    middlewares.push(immutableRedux);
+    const immutableRedux = reduxImmutableState({})
+    middlewares.push(immutableRedux)
     if ((window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
       composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     }

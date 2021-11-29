@@ -42,6 +42,13 @@ export const addBookFailure = (error: string) => {
   }
 }
 
+export const deleteBookSuccess = (book: Book) => {
+  return {
+    type: booksActionTypes.DELETE_BOOK_SUCCESS,
+    payload: book,
+  }
+}
+
 export function fetchBooks() {
   return (dispatch: Dispatch) => {
     dispatch(fetchBooksRequest())
@@ -64,8 +71,22 @@ export const postBook = (book: Book, history: any) => {
     })
       .then((book) => {
         dispatch(addBookSuccess(book))
-        history('/books');
+        history('/books')
       })
       .catch((err) => dispatch(addBookFailure(err)))
+  }
+}
+
+export const deleteBook = (book: Book, history: any) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      await httpRequest(`/books/${book._id}`, {
+        method: 'delete',
+      })
+      return dispatch(deleteBookSuccess(book))
+      history.push('/books')
+    } catch (err) {
+      return console.log(err)
+    }
   }
 }
