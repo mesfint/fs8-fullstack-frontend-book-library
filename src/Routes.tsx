@@ -10,6 +10,8 @@ import Home from './pages/Home'
 import Product from './pages/Product'
 import { IconType } from './components/svg/icons'
 import AddNew from './pages/book/AddNew'
+import AuthorList from './pages/author/AuthorList'
+import EditBook from './pages/book/EditBook'
 
 type PathRouterType = PathRouteProps & {
   icon?: IconType
@@ -23,17 +25,18 @@ export const routerList: PathRouterType[] = [
   { path: '/users', element: <BookList />, icon: 'users', title: 'Users' },
   {
     path: '/authors',
-    element: <BookList />,
+    element: <AuthorList />,
     icon: 'authors',
     title: 'Authors',
   },
   { path: '/books/add', element: <AddNew />, title: 'Add new book' },
+  { path: '/books/:id/edit', element: <EditBook />, title: 'Edit book' },
 ]
 
 const Routes = () => (
   <Switch>
-    {routerList.map((route) => (
-      <Route path={route.path} element={route.element} />
+    {routerList.map((route, index) => (
+      <Route key={index} path={route.path} element={route.element} />
     ))}
   </Switch>
 )

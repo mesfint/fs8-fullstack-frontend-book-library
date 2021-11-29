@@ -58,9 +58,9 @@ const Layout: FunctionComponent = ({ children }) => {
               <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
                 <div className="flex-1 px-3 bg-white divide-y space-y-1">
                   <ul className="space-y-2 pb-2">
-                    {routerList.map((route, index) => (
-                      <>
-                        {route.icon && (
+                    {routerList.map(
+                      (route, index) =>
+                        route.icon && (
                           <li key={index}>
                             <Link
                               to={route.path}
@@ -77,9 +77,8 @@ const Layout: FunctionComponent = ({ children }) => {
                               <span className="ml-3">{route.title}</span>
                             </Link>
                           </li>
-                        )}
-                      </>
-                    ))}
+                        )
+                    )}
                   </ul>
                 </div>
               </div>

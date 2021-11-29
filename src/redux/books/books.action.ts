@@ -42,10 +42,10 @@ export const addBookFailure = (error: string) => {
   }
 }
 
-export const deleteBookSuccess = (book: Book) => {
+export const deleteBookSuccess = (bookId: string) => {
   return {
     type: booksActionTypes.DELETE_BOOK_SUCCESS,
-    payload: book,
+    payload: bookId,
   }
 }
 
@@ -77,16 +77,46 @@ export const postBook = (book: Book, history: any) => {
   }
 }
 
-export const deleteBook = (book: Book, history: any) => {
+export const editBook = (book: Book, history: any) => {
+  return (dispatch: Dispatch) => {
+    dispatch(addBookRequest())
+    return httpRequest(`/books/${book._id}`, {
+      method: 'put',
+      body: JSON.stringify(book),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((book) => {
+        dispatch(addBookSuccess(book))
+        history('/books')
+      })
+      .catch((err) => dispatch(addBookFailure(err)))
+  }
+}
+
+export const deleteBook = (bookId: string) => {
   return async (dispatch: Dispatch) => {
     try {
-      await httpRequest(`/books/${book._id}`, {
+      await httpRequest(`/books/${bookId}`, {
         method: 'delete',
       })
-      return dispatch(deleteBookSuccess(book))
-      history.push('/books')
+      dispatch(deleteBookSuccess(bookId))
     } catch (err) {
-      return console.log(err)
+      return console.log({err})
     }
   }
 }
+
+
+export const findOneBook = async(bookId: string) => {
+    try {
+      const book = await httpRequest(`/books/${bookId}`, {
+        method: 'GET',
+      })
+      return book;
+    } catch (err) {
+      return null;
+    }
+  }
