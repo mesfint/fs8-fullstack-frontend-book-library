@@ -11,6 +11,7 @@ import Product from './pages/Product'
 import { IconType } from './components/svg/icons'
 import AddNew from './pages/book/AddNew'
 import AuthorList from './pages/author/AuthorList'
+import UserList from './pages/user/UserList'
 import EditBook from './pages/book/EditBook'
 
 type PathRouterType = PathRouteProps & {
@@ -22,7 +23,8 @@ export const routerList: PathRouterType[] = [
   { path: '/', element: <Home />, icon: 'home', title: 'Home' },
   { path: '/products/:id', element: <Product />, title: 'Product' },
   { path: '/books', element: <BookList />, icon: 'books', title: 'Books' },
-  { path: '/users', element: <BookList />, icon: 'users', title: 'Users' },
+  { path: '/users', element: <UserList />, icon: 'users', title: 'Users' },
+  { path: '/users/add', element: <AddNew />, title: 'Add new user' },
   {
     path: '/authors',
     element: <AuthorList />,

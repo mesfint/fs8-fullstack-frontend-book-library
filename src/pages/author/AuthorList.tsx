@@ -4,10 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { AppState } from '../../types'
 import { fetchAuthors } from '../../redux/authors/authors.action'
-import Layout from '../../components/layout/Layout'
 import { deleteAuthor } from '../../redux/authors/authors.action'
 import Spinner from '../../components/Spinner'
-import ImageWithFallback from '../../components/Image'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
@@ -15,6 +13,7 @@ const AuthorList: VoidFunctionComponent = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const history = useNavigate()
+  let count = 1
   const authors = useSelector((state: AppState) => state?.authors)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -62,13 +61,19 @@ const AuthorList: VoidFunctionComponent = () => {
                     </th>
 
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Action
+                      Edit
+                    </th>
+                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                      Delete
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   {authors.authors.map((author) => (
                     <tr key={author.authorId}>
+                      <td className="border-t-0 px-6 py-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
+                        {count++}
+                      </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
                         {author.firstName}
                       </td>
