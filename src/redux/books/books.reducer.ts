@@ -39,6 +39,7 @@ const reducer = (state = initialBooksState, action: AnyAction) => {
     case booksActionTypes.ADD_BOOK_ERROR:
       return { ...state, error: action.payload, loading: false }
     case booksActionTypes.DELETE_BOOK_SUCCESS:
+      console.log('FILTER', state.books.filter((book) => book.bookId !== action.payload));
       return {
         ...state,
         books: state.books.filter((book) => book.bookId !== action.payload),

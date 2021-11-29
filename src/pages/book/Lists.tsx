@@ -10,15 +10,23 @@ import Spinner from '../../components/Spinner'
 import ImageWithFallback from '../../components/Image'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import Modal from '../../components/Modal'
+import { Book } from '../../models/Book'
 
 const BookList: VoidFunctionComponent = () => {
   const history = useNavigate()
   const { id } = useParams()
   const books = useSelector((state: AppState) => state?.books)
+  const [deleteBookId, setDeleteBookId] = useState<string | null>(null);
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(fetchBooks())
   }, [])
+  const deleteBookCallback = (bookId: string) => {
+    dispatch(deleteBook(bookId));
+    setDeleteBookId(null);
+    dispatch(fetchBooks())
+  }
   if (books.loading) {
     return <Spinner />
   }
@@ -70,7 +78,7 @@ const BookList: VoidFunctionComponent = () => {
                 </thead>
                 <tbody>
                   {books.books.map((book) => (
-                    <tr key={book.bookId}>
+                    <tr key={book._id}>
                       <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  text-left text-blueGray-700 ">
                         <ImageWithFallback
                           src={book.coverImage}
@@ -92,17 +100,15 @@ const BookList: VoidFunctionComponent = () => {
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
                         <Link
-                          to="/books"
+                          to={`/books/${book._id}/edit`}
                           className="bg-yellow-200 text-black active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         >
                           Edit
                         </Link>
-                      </td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
                         <Link
                           to="/books"
                           className="bg-red-500 text-white active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                          onClick={() => dispatch(deleteBook(book, history))}
+                          onClick={() => setDeleteBookId(book._id)}
                         >
                           Delete
                         </Link>
@@ -115,6 +121,15 @@ const BookList: VoidFunctionComponent = () => {
           </div>
         </div>
       </section>
+      {deleteBookId && (
+        <Modal
+          title="Delete confirmation"
+          onAccept={() => deleteBookCallback(deleteBookId)}
+          onCancel={() => setDeleteBookId(null)}
+        >
+          Are you sure to delete this item ?
+        </Modal>
+      )}
     </>
   )
 }
