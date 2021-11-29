@@ -7,12 +7,14 @@ import { AppState } from '../types'
 import createRootReducer from './reducers'
 import rootSaga from './sagas'
 import { initialBooksState } from './books/books.reducer'
+import { initialAuthorsState } from './authors/authors.reducer'
 
 const initState: AppState = {
   product: {
     inCart: [],
   },
   books: initialBooksState,
+  authors: initialAuthorsState,
 }
 
 export default function makeStore(initialState = initState) {
