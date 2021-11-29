@@ -8,14 +8,14 @@ export type AuthorsState = {
   authors: Author[]
   error?: ApiError
 }
-export const initialBooksState: AuthorsState = {
+export const initialAuthorState: AuthorsState = {
   loading: false,
   authors: [],
   error: undefined,
 }
 
 const reducer = (
-  state: AuthorsState = initialBooksState,
+  state: AuthorsState = initialAuthorState,
   action: AnyAction
 ): AuthorsState => {
   switch (action.type) {
