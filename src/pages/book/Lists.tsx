@@ -26,6 +26,7 @@ const BookList: VoidFunctionComponent = () => {
     setDeleteBookId(null)
     dispatch(fetchBooks())
   }
+  console.log('BOOOK', books);
   if (books.loading) {
     return <Spinner />
   }
@@ -63,6 +64,10 @@ const BookList: VoidFunctionComponent = () => {
                     </th>
 
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                      Author
+                    </th>
+
+                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                       Published Year
                     </th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
@@ -90,6 +95,9 @@ const BookList: VoidFunctionComponent = () => {
                       </Link>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
                         {book.title}
+                      </td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
+                        {book.author ? `${book.author?.firstName} ${book.author?.lastName}` : '-----'}
                       </td>
 
                       <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap ">
