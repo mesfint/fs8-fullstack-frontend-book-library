@@ -1,3 +1,5 @@
+import { Author } from "./Author";
+
 export type Book = {
   pageNumber: number
   _id: string
@@ -10,4 +12,5 @@ export type Book = {
   rating: number
   category: string
   summary: string
+  author?: Author
 }
