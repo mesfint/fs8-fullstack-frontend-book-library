@@ -17,7 +17,6 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
     firstName: '',
     lastName: '',
     userName: '',
-    _id: '',
     email: '',
   } as User,
 }) => {
