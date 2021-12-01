@@ -77,45 +77,45 @@ export const postUser = (user: User, history: any) => {
   }
 }
 
-// export const editBook = (book: Book, history: any) => {
-//   return (dispatch: Dispatch) => {
-//     dispatch(addBookRequest())
-//     return httpRequest(`/books/${book._id}`, {
-//       method: 'put',
-//       body: JSON.stringify(book),
-//       headers: {
-//         Accept: 'application/json',
-//         'Content-Type': 'application/json',
-//       },
-//     })
-//       .then((book) => {
-//         dispatch(addBookSuccess(book))
-//         history('/books')
-//       })
-//       .catch((err) => dispatch(addBookFailure(err)))
-//   }
-// }
+export const editUser = (user: User, history: any) => {
+  return (dispatch: Dispatch) => {
+    dispatch(addUserRequest())
+    return httpRequest(`/users/${user._id}`, {
+      method: 'put',
+      body: JSON.stringify(user),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((user) => {
+        dispatch(addUserSuccess(user))
+        history('/users')
+      })
+      .catch((err) => dispatch(addUserFailure(err)))
+  }
+}
 
-// export const deleteBook = (bookId: string) => {
-//   return async (dispatch: Dispatch) => {
-//     try {
-//       await httpRequest(`/books/${bookId}`, {
-//         method: 'delete',
-//       })
-//       dispatch(deleteBookSuccess(bookId))
-//     } catch (err) {
-//       return console.log({ err })
-//     }
-//   }
-// }
+export const deleteUser = (userId: string) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      await httpRequest(`/users/${userId}`, {
+        method: 'delete',
+      })
+      dispatch(deleteUserSuccess(userId))
+    } catch (err) {
+      return console.log({ err })
+    }
+  }
+}
 
-// export const findOneBook = async (bookId: string) => {
-//   try {
-//     const book = await httpRequest(`/books/${bookId}`, {
-//       method: 'GET',
-//     })
-//     return book
-//   } catch (err) {
-//     return null
-//   }
-// }
+export const findOneUser = async (userId: string) => {
+  try {
+    const user = await httpRequest(`/users/${userId}`, {
+      method: 'GET',
+    })
+    return user
+  } catch (err) {
+    return null
+  }
+}

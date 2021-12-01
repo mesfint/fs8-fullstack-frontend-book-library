@@ -7,12 +7,15 @@ import type { PathRouteProps } from 'react-router'
 //https://stackoverflow.com/questions/63124161/attempted-import-error-switch-is-not-exported-from-react-router-dom
 
 import Home from './pages/Home'
-import Product from './pages/Product'
+// import Product from './pages/Product'
 import { IconType } from './components/svg/icons'
 import AddNew from './pages/book/AddNew'
+import AddNewUser from './pages/user/AddNewUser'
+import LoginUser from './pages/Auth/LoginUser'
 import AuthorList from './pages/author/AuthorList'
 import UserList from './pages/user/UserList'
 import EditBook from './pages/book/EditBook'
+import BookDetails from './pages/book/BookDetails'
 
 type PathRouterType = PathRouteProps & {
   icon?: IconType
@@ -21,18 +24,20 @@ type PathRouterType = PathRouteProps & {
 
 export const routerList: PathRouterType[] = [
   { path: '/', element: <Home />, icon: 'home', title: 'Home' },
-  { path: '/products/:id', element: <Product />, title: 'Product' },
   { path: '/books', element: <BookList />, icon: 'books', title: 'Books' },
+  { path: '/book/:_id', element: <BookDetails />, title: '' },
+  { path: '/books/add', element: <AddNew />, title: 'Add new book' },
+  { path: '/books/:id/edit', element: <EditBook />, title: 'Edit book' },
+
   { path: '/users', element: <UserList />, icon: 'users', title: 'Users' },
-  { path: '/users/add', element: <AddNew />, title: 'Add new user' },
+  { path: '/users/add', element: <AddNewUser />, title: 'Add new user' },
+  { path: '/auth/login', element: <LoginUser />, title: 'Login User' },
   {
     path: '/authors',
     element: <AuthorList />,
     icon: 'authors',
     title: 'Authors',
   },
-  { path: '/books/add', element: <AddNew />, title: 'Add new book' },
-  { path: '/books/:id/edit', element: <EditBook />, title: 'Edit book' },
 ]
 
 const Routes = () => (

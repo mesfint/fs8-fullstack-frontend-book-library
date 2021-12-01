@@ -5,11 +5,13 @@ import Svg from '../svg/Svg'
 import { routerList } from '../../Routes'
 import { IconType } from '../svg/icons'
 import { useLocation } from 'react-router'
+import LoginForm from '../../pages/Auth/LoginForm'
+import SignUp from '../../pages/Auth/SignUp'
 
 const Layout: FunctionComponent = ({ children }) => {
   const [mobileBurger, setMobileBurger] = useState(false)
   const location = useLocation()
-  console.log(location.pathname)
+  console.log('path-location', location.pathname)
   return (
     <>
       <div>
@@ -41,6 +43,15 @@ const Layout: FunctionComponent = ({ children }) => {
                 >
                   <Svg type="logo" className="h-8 mr-2" alt="Library Logo" />
                   <span className="self-center whitespace-nowrap">Library</span>
+                </Link>
+              </div>
+              <div className="flex gap-2 justify-center align-center font-mono">
+                <Link to="auth/login">Login</Link>
+                <Link
+                  to="users/add"
+                  className=" border-2  font-mono rounded px-1 border-indigo-300"
+                >
+                  Sign Up
                 </Link>
               </div>
             </div>

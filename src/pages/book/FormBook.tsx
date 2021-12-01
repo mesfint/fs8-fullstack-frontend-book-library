@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { AppState } from '../../types'
 import { editBook, postBook } from '../../redux/books/books.action'
-import Layout from '../../components/layout/Layout'
 import Spinner from '../../components/Spinner'
 import ImageWithFallback from '../../components/Image'
 import { Link } from 'react-router-dom'
@@ -23,15 +22,19 @@ const FormBook: VoidFunctionComponent<FormBookType> = ({
     publishedYear: 0,
     quantity: 0,
     rating: 0,
+    category: '',
     summary: '',
   } as Book,
 }) => {
   const books = useSelector((state: AppState) => state?.books)
+  const authors = useSelector((state: AppState) => state?.authors.authors)
+
   const dispatch = useDispatch()
   const history = useNavigate()
 
   const [formValue, setFormValue] = useState<Book>(book)
   const [submit, setSubmit] = useState(false)
+
   const submitForm = () => {
     setSubmit(true)
     const isEmpty = Object.values(formValue).every(
@@ -39,11 +42,11 @@ const FormBook: VoidFunctionComponent<FormBookType> = ({
         x === null || !(x as string).length || x === 0 || typeof x === undefined
     )
     if (!isEmpty) {
-        if(book._id) {
-            dispatch(editBook(formValue, history))
-        } else {
-            dispatch(postBook(formValue, history))
-        }
+      if (book._id) {
+        dispatch(editBook(formValue, history))
+      } else {
+        dispatch(postBook(formValue, history))
+      }
     }
   }
   const loadFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -65,7 +68,9 @@ const FormBook: VoidFunctionComponent<FormBookType> = ({
         <div className="grid  gap-8 grid-cols-1">
           <div className="flex flex-col ">
             <div className="flex flex-col sm:flex-row items-center">
-              <h2 className="font-semibold text-lg mr-auto">{book._id ? 'Edit book' : 'Add new book'}</h2>
+              <h2 className="font-semibold text-lg mr-auto">
+                {book._id ? 'Edit book' : 'Add new book'}
+              </h2>
               <div className="w-full sm:w-auto sm:ml-auto mt-3 sm:mt-0" />
             </div>
             <div className="mt-5">
@@ -164,6 +169,18 @@ const FormBook: VoidFunctionComponent<FormBookType> = ({
                       </p>
                     )}
                   </div>
+                  <div>
+                    <label htmlFor="author">Author</label>
+                    <div className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
+                      <select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                        {authors.map((author) => (
+                          <option key={author._id}>
+                            {author.firstName + author.lastName}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
                 </div>
                 <div className="md:flex flex-row md:space-x-4 w-full text-xs">
                   <div className="mb-3 space-y-2 w-full text-xs">
@@ -197,6 +214,7 @@ const FormBook: VoidFunctionComponent<FormBookType> = ({
                       </p>
                     )}
                   </div>
+
                   <div className="mb-3 space-y-2 w-full text-xs">
                     <label
                       htmlFor="pageNumber"
@@ -223,6 +241,38 @@ const FormBook: VoidFunctionComponent<FormBookType> = ({
                       }
                     />
                     {submit && !formValue.pageNumber && (
+                      <p className="text-red-500 text-xs">
+                        Please fill out this field.
+                      </p>
+                    )}
+                  </div>
+                  <div className="mb-3 space-y-2 w-full text-xs">
+                    <label
+                      htmlFor="category"
+                      className="font-semibold text-gray-600 py-2"
+                    >
+                      Category
+                      <abbr className="text-red-500" title="required">
+                        *
+                      </abbr>
+                    </label>
+
+                    <select
+                      className="appearance-none block w-full   border rounded-lg h-10 px-4"
+                      onChange={(e) =>
+                        setFormValue({
+                          ...formValue,
+                          category: e.target.value,
+                        })
+                      }
+                    >
+                      <option>Select Category</option>
+                      <option value="Science">Science</option>
+                      <option value="History">History</option>
+                      <option value="Poetry">Poetry</option>
+                      <option value="Sci-Fiction">Sci-Fiction</option>
+                    </select>
+                    {submit && !formValue.category && (
                       <p className="text-red-500 text-xs">
                         Please fill out this field.
                       </p>

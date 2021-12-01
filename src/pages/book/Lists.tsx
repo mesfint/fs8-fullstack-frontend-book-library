@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { AppState } from '../../types'
 import { fetchBooks } from '../../redux/books/books.action'
-import Layout from '../../components/layout/Layout'
 import { deleteBook } from '../../redux/books/books.action'
 import Spinner from '../../components/Spinner'
 import ImageWithFallback from '../../components/Image'
@@ -15,7 +14,7 @@ import { Book } from '../../models/Book'
 
 const BookList: VoidFunctionComponent = () => {
   const history = useNavigate()
-  const { id } = useParams()
+
   const books = useSelector((state: AppState) => state?.books)
   const [deleteBookId, setDeleteBookId] = useState<string | null>(null)
   const dispatch = useDispatch()
@@ -63,6 +62,10 @@ const BookList: VoidFunctionComponent = () => {
                       Title
                     </th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                      Author
+                    </th>
+
+                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                       Published Year
                     </th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
@@ -79,16 +82,22 @@ const BookList: VoidFunctionComponent = () => {
                 <tbody>
                   {books.books.map((book) => (
                     <tr key={book._id}>
-                      <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  text-left text-blueGray-700 ">
-                        <ImageWithFallback
-                          src={book.coverImage}
-                          alt={book.title}
-                          className="h-20 w-20"
-                        />
-                      </th>
+                      <Link to={`/book/${book._id}`}>
+                        <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  text-left text-blueGray-700 ">
+                          <ImageWithFallback
+                            src={book.coverImage}
+                            alt={book.title}
+                            className="h-20 w-20"
+                          />
+                        </th>
+                      </Link>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
                         {book.title}
                       </td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
+                        {'Author'}
+                      </td>
+
                       <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap ">
                         {book.publishedYear}
                       </td>
