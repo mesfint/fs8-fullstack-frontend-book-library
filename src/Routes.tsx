@@ -34,10 +34,6 @@ export const routerList: PathRouterType[] = [
   { path: '/users/:id/edit', element: <EditUser />, title: 'Users' },
   { path: '/users/add', element: <FormUser />, title: 'Add new user' },
   { path: '/users/auth', element: <LoginForm />, title: 'Add new user' },
-  {
-    path: '/users/google-authenticate',
-    element: <UserList />,
-  },
 
   {
     path: '/authors',
