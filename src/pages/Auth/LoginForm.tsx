@@ -10,6 +10,7 @@ import Spinner from '../../components/Spinner'
 import { User } from '../../models/User'
 import ErrorMessage from '../../components/Error'
 import { useNavigate } from 'react-router-dom'
+import { apiUrl } from '../../utils/httpRequest'
 
 type FormUserType = { user?: User }
 
@@ -55,14 +56,28 @@ const Login: VoidFunctionComponent<FormUserType> = ({
   }
 
   const responseGoogle = async (response: any) => {
-    let res = await axios.post(
-      'http://localhost:3000/api/v1/users/google-authenticate',
-      // id_token will be sent to back end that we are confirmed by google let us
-      // go
-      { id_token: response.tokenObj.is_token }
-    )
-    //console.log(response)
-    console.log('response with token from back end=>', res)
+    console.log( { idToken: response})
+    try{
+
+      let res: any = await axios.post(
+        `${apiUrl}/users/google-authenticate`,
+        // id_token will be sent to back end that we are confirmed by google let us
+        // go
+        { id_token: response.tokenObj.id_token, id: response.googleId, 
+          firstName: response.profileObj.givenName, lastName: response.profileObj.familyName,
+        email: response.profileObj.email },
+        {headers: {
+          'Content-Type': 'application/json',
+          //'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }}
+      )
+      console.log('RSSSS', res);
+      if(res.data.token) {
+        localStorage.setItem('token', res.data.token);
+      }
+    }catch(error) {
+      console.log('Error', error)
+    }
   }
 
   const handleIsSignup = () => {
