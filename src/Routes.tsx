@@ -3,19 +3,20 @@ import React from 'react'
 import { Routes as Switch, Route } from 'react-router-dom' // updated to latest
 import BookList from './pages/book/Lists'
 import type { PathRouteProps } from 'react-router'
-//https://reactrouter.com/docs/en/v6/upgrading/v5
-//https://stackoverflow.com/questions/63124161/attempted-import-error-switch-is-not-exported-from-react-router-dom
-
 import Home from './pages/Home'
-// import Product from './pages/Product'
 import { IconType } from './components/svg/icons'
 import AddNew from './pages/book/AddNew'
-import AddNewUser from './pages/user/AddNewUser'
-import LoginUser from './pages/Auth/LoginUser'
+import LoginForm from './pages/Auth/LoginForm'
 import AuthorList from './pages/author/AuthorList'
 import UserList from './pages/user/UserList'
 import EditBook from './pages/book/EditBook'
 import BookDetails from './pages/book/BookDetails'
+import EditUser from './pages/user/EditUser'
+import AddNewAuthor from './pages/author/AddNewAuthor'
+import EditAuthor from './pages/author/EditAuthor'
+import UserBooksList from './pages/userBooks/UserBooksList'
+import BorrowBook from './pages/userBooks/BorrowBook'
+import FormUser from './pages/user/FormUser'
 
 type PathRouterType = PathRouteProps & {
   icon?: IconType
@@ -30,13 +31,29 @@ export const routerList: PathRouterType[] = [
   { path: '/books/:id/edit', element: <EditBook />, title: 'Edit book' },
 
   { path: '/users', element: <UserList />, icon: 'users', title: 'Users' },
-  { path: '/users/add', element: <AddNewUser />, title: 'Add new user' },
-  { path: '/auth/login', element: <LoginUser />, title: 'Login User' },
+  { path: '/users/:id/edit', element: <EditUser />, title: 'Users' },
+  { path: '/users/add', element: <FormUser />, title: 'Add new user' },
+  { path: '/users/auth', element: <LoginForm />, title: 'Add new user' },
+
   {
     path: '/authors',
     element: <AuthorList />,
     icon: 'authors',
     title: 'Authors',
+  },
+  { path: '/authors/add', element: <AddNewAuthor />, title: 'Add new author' },
+  { path: '/authors/:id/edit', element: <EditAuthor />, title: 'Authors' },
+
+  {
+    path: '/userBooks',
+    element: <UserBooksList />,
+    icon: 'userBooks',
+    title: 'Borrowed Books',
+  },
+  {
+    path: '/userBooks/BorrowBook',
+    element: <BorrowBook />,
+    title: 'Borrow book',
   },
 ]
 

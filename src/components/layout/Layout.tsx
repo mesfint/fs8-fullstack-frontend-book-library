@@ -6,7 +6,6 @@ import { routerList } from '../../Routes'
 import { IconType } from '../svg/icons'
 import { useLocation } from 'react-router'
 import LoginForm from '../../pages/Auth/LoginForm'
-import SignUp from '../../pages/Auth/SignUp'
 
 const Layout: FunctionComponent = ({ children }) => {
   const [mobileBurger, setMobileBurger] = useState(false)
@@ -46,13 +45,7 @@ const Layout: FunctionComponent = ({ children }) => {
                 </Link>
               </div>
               <div className="flex gap-2 justify-center align-center font-mono">
-                <Link to="auth/login">Login</Link>
-                <Link
-                  to="users/add"
-                  className=" border-2  font-mono rounded px-1 border-indigo-300"
-                >
-                  Sign Up
-                </Link>
+                <Link to="users/auth">Login</Link>
               </div>
             </div>
           </div>

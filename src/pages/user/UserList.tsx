@@ -9,6 +9,7 @@ import Spinner from '../../components/Spinner'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { User } from '../../models/User'
+import Modal from '../../components/Modal'
 
 const UserList: VoidFunctionComponent = () => {
   let count = 1
@@ -16,11 +17,18 @@ const UserList: VoidFunctionComponent = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const users = useSelector((state: AppState) => state?.users)
+  const [deleteUserId, setDeleteUserId] = useState<string | null>(null)
 
   useEffect(() => {
     dispatch(fetchUsers())
-  }, [])
+  }, [dispatch])
 
+  const deleteUserCallback = (userId: string) => {
+    dispatch(deleteUser(userId))
+    setDeleteUserId(null)
+    dispatch(fetchUsers())
+  }
+  console.log('USER', users)
   if (users.loading) {
     return <Spinner />
   }
@@ -95,7 +103,7 @@ const UserList: VoidFunctionComponent = () => {
 
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
                         <Link
-                          to="/users"
+                          to={`/users/${user._id}/edit`}
                           className="bg-yellow-200 text-black active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         >
                           Edit
@@ -105,7 +113,7 @@ const UserList: VoidFunctionComponent = () => {
                         <Link
                           to="/users"
                           className="bg-red-500 text-white active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                          // onClick={() => dispatch(deleteUser(user))}
+                          onClick={() => setDeleteUserId(user._id)}
                         >
                           Delete
                         </Link>
@@ -118,6 +126,15 @@ const UserList: VoidFunctionComponent = () => {
           </div>
         </div>
       </section>
+      {deleteUserId && (
+        <Modal
+          title="Delete User"
+          onAccept={() => deleteUserCallback(deleteUserId)}
+          onCancel={() => setDeleteUserId(null)}
+        >
+          Are you sure to delete this user?
+        </Modal>
+      )}
     </>
   )
 }

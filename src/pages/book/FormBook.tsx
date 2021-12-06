@@ -1,4 +1,9 @@
-import React, { ChangeEvent, useEffect, useState, VoidFunctionComponent } from 'react'
+import React, {
+  ChangeEvent,
+  useEffect,
+  useState,
+  VoidFunctionComponent,
+} from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -26,7 +31,7 @@ const FormBook: VoidFunctionComponent<FormBookType> = ({
     rating: 0,
     category: '',
     summary: '',
-    author: {} as Author
+    author: {} as Author,
   } as Book,
 }) => {
   const books = useSelector((state: AppState) => state?.books)
@@ -190,15 +195,19 @@ const FormBook: VoidFunctionComponent<FormBookType> = ({
                       onChange={(e) =>
                         setFormValue({
                           ...formValue,
-                          author: authors.find((auth) => auth.authorId === e.target.value),
-                        })}
+                          author: authors.find(
+                            (auth) => auth.authorId === e.target.value
+                          ),
+                        })
+                      }
                       id="author"
                     >
-                      <option>Select Author</option>{authors.map((author) => (
-                          <option key={author._id} value={author.authorId}>
-                            {author.firstName + author.lastName}
-                          </option>
-                        ))}
+                      <option>Select Author</option>
+                      {authors.map((author) => (
+                        <option key={author._id} value={author.authorId}>
+                          {`${author.firstName} ${author.lastName}`}
+                        </option>
+                      ))}
                     </select>
                     {submit && !formValue.category && (
                       <p className="text-red-500 text-xs">
@@ -409,7 +418,7 @@ const FormBook: VoidFunctionComponent<FormBookType> = ({
                 <div className="mt-5 text-right md:space-x-3 md:block flex flex-col-reverse">
                   <Link
                     to="/books"
-                    className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
+                    className="mb-2 md:mb-0 bg-white px-5 py-2 text-sm text-center shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"
                   >
                     Cancel
                   </Link>

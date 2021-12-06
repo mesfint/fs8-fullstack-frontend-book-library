@@ -1,36 +1,23 @@
-import React, { useEffect, useState, VoidFunctionComponent } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useState, useEffect, VoidFunctionComponent } from 'react'
+import { fetchUserBooks } from '../../redux/userbooks/userBooks.action'
 import { useDispatch, useSelector } from 'react-redux'
-
-import { AppState } from '../../types'
-import { fetchAuthors } from '../../redux/authors/authors.action'
-import { deleteAuthor } from '../../redux/authors/authors.action'
 import Spinner from '../../components/Spinner'
+import { AppState } from '../../types'
+import moment from 'moment'
 import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
-import Modal from '../../components/Modal'
+import { UserBook } from '../../models/UserBook'
+import { User } from '../../models/User'
 
-const AuthorList: VoidFunctionComponent = () => {
-  const { id } = useParams()
+const UserBooksList: VoidFunctionComponent = () => {
+  const userBooks = useSelector((state: AppState) => state?.userBooks.userBooks)
+  const users = useSelector((state: AppState) => state?.users)
   const dispatch = useDispatch()
-  const history = useNavigate()
-  let count = 1
-  const authors = useSelector((state: AppState) => state?.authors)
-  const [deleteAuthorId, setDeleteAuthorId] = useState<string | null>(null)
 
   useEffect(() => {
-    dispatch(fetchAuthors())
-  }, [])
-
-  const deleteAuthorCallback = (authorId: string) => {
-    dispatch(deleteAuthor(authorId))
-    setDeleteAuthorId(null)
-    dispatch(fetchAuthors())
-  }
-  if (authors.loading) {
-    return <Spinner />
-  }
-
+    dispatch(fetchUserBooks())
+  }, [dispatch])
+  console.log('userBooks=>', userBooks)
+  let count = 1
   return (
     <>
       <section className="py-1 bg-blueGray-50">
@@ -40,16 +27,8 @@ const AuthorList: VoidFunctionComponent = () => {
               <div className="flex flex-wrap items-center">
                 <div className="relative w-full px-4 max-w-full flex-grow flex-1">
                   <h3 className="font-semibold text-base text-blueGray-700">
-                    Authors
+                    Borrowed Books
                   </h3>
-                </div>
-                <div className="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                  <Link
-                    to="/authors/add"
-                    className="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                  >
-                    Add new
-                  </Link>
                 </div>
               </div>
             </div>
@@ -61,10 +40,18 @@ const AuthorList: VoidFunctionComponent = () => {
                       #
                     </th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      First Name
+                      Title
+                    </th>
+
+                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                      User
+                    </th>
+
+                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                      Date Borrowed
                     </th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Last Name
+                      Date Returning
                     </th>
 
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
@@ -76,31 +63,37 @@ const AuthorList: VoidFunctionComponent = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {authors.authors.map((author) => (
-                    <tr key={author.authorId}>
-                      <td className="border-t-0 px-6 py-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
+                  {userBooks.map((userBook) => (
+                    <tr key={userBook.bookId}>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
                         {count++}
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
-                        {author.firstName}
+                        {userBook.book.title}
                       </td>
+
                       <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap ">
-                        {author.lastName}
+                        {'first name'}
+                      </td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
+                        {moment(userBook.borrowDate).format('MMM Do YYYY')}
+                      </td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
+                        {moment(userBook.returnDate).format('MMM Do YYYY')}
                       </td>
 
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
                         <Link
-                          to={`/authors/${author._id}/edit`}
+                          to={''}
                           className="bg-yellow-200 text-black active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         >
                           Edit
                         </Link>
                       </td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
+                      <td>
                         <Link
-                          to="/authors"
-                          className="bg-red-500 text-white active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                          onClick={() => setDeleteAuthorId(author._id)}
+                          to="/userBooks"
+                          className="bg-red-500 text-white active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none ml-2 mb-1 ease-linear transition-all duration-150"
                         >
                           Delete
                         </Link>
@@ -113,17 +106,8 @@ const AuthorList: VoidFunctionComponent = () => {
           </div>
         </div>
       </section>
-      {deleteAuthorId && (
-        <Modal
-          title="Delete Author"
-          onAccept={() => deleteAuthorCallback(deleteAuthorId)}
-          onCancel={() => setDeleteAuthorId(null)}
-        >
-          Are you sure to delete this author?
-        </Modal>
-      )}
     </>
   )
 }
 
-export default AuthorList
+export default UserBooksList

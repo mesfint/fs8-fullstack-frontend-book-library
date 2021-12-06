@@ -1,7 +1,9 @@
+import { UserBook } from './../../models/UserBook'
 import Logo from './icons/logo.png'
 import Home from './icons/home.svg'
 import Books from './icons/books.svg'
 import Users from './icons/users.svg'
+import UserBooks from './icons/userBooks.svg'
 import Authors from './icons/authors.svg'
 import Burger from './icons/burger.svg'
 import Close from './icons/close.svg'
@@ -12,6 +14,7 @@ export type IconType =
   | 'books'
   | 'users'
   | 'authors'
+  | 'userBooks'
   | 'burger'
   | 'close'
 // Record => Constructs an object type whose property keys are Keys and whose property
@@ -23,6 +26,7 @@ const icons: IconMappingType = {
   books: Books,
   users: Users,
   authors: Authors,
+  userBooks: UserBooks,
   burger: Burger,
   close: Close,
 }

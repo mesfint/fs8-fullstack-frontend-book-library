@@ -42,10 +42,10 @@ export const addAuthorFailure = (error: string) => {
   }
 }
 
-export const deleteAuthorSuccess = (author: Author) => {
+export const deleteAuthorSuccess = (authorId: string) => {
   return {
     type: authorsActionTypes.DELETE_AUTHOR_SUCCESS,
-    payload: author,
+    payload: authorId,
   }
 }
 
@@ -77,16 +77,46 @@ export const postAuthor = (author: Author, history: any) => {
   }
 }
 
-export const deleteAuthor = (author: Author, history: any) => {
+export const editAuthor = (author: Author, history: any) => {
+  return (dispatch: Dispatch) => {
+    dispatch(addAuthorRequest())
+    return httpRequest(`/authors/${author._id}`, {
+      method: 'put',
+      body: JSON.stringify(author),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((author) => {
+        dispatch(addAuthorSuccess(author))
+        history('/authors')
+      })
+      .catch((err) => dispatch(addAuthorFailure(err)))
+  }
+}
+
+export const deleteAuthor = (authorId: string) => {
   return async (dispatch: Dispatch) => {
     try {
-      await httpRequest(`/authors/${author._id}`, {
+      await httpRequest(`/authors/${authorId}`, {
         method: 'delete',
       })
-      return dispatch(deleteAuthorSuccess(author))
-      history.push('/authors')
+      return dispatch(deleteAuthorSuccess(authorId))
     } catch (err) {
       return console.log(err)
     }
+  }
+}
+
+//to complete the edit a book need to get a book by id
+export const findOneAuthor = async (authorId: string) => {
+  try {
+    const author = await httpRequest(`/authors/${authorId}`, {
+      method: 'GET',
+    })
+    return author
+  } catch (err) {
+    return null
   }
 }

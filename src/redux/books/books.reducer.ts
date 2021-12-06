@@ -6,11 +6,15 @@ import { booksActionTypes } from './books.types'
 export type BooksState = {
   loading: boolean
   books: Book[]
+  filteredBooks: Book[]
+  searchTerm: string
   error?: ApiError
 }
 export const initialBooksState: BooksState = {
   loading: false,
   books: [],
+  filteredBooks: [],
+  searchTerm: '',
   error: undefined,
 }
 
@@ -39,12 +43,33 @@ const reducer = (state = initialBooksState, action: AnyAction) => {
     case booksActionTypes.ADD_BOOK_ERROR:
       return { ...state, error: action.payload, loading: false }
     case booksActionTypes.DELETE_BOOK_SUCCESS:
-      console.log('FILTER', state.books.filter((book) => book.bookId !== action.payload));
+      console.log(
+        'FILTER',
+        state.books.filter((book) => book.bookId !== action.payload)
+      )
       return {
         ...state,
         books: state.books.filter((book) => book.bookId !== action.payload),
         error: undefined,
         loading: false,
+      }
+    case booksActionTypes.SEARCH_BOOKS:
+      const searchTerm = action.payload.searchTerm
+      const filteredBooks = state.books.filter((b) => {
+        //Search book by title or author firstName or Genre
+        return (
+          b.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          b.author?.firstName
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          b.category.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      })
+
+      return {
+        ...state,
+        filteredBooks,
+        searchTerm,
       }
     default:
       return state

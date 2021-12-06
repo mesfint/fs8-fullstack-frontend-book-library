@@ -48,6 +48,14 @@ export const deleteBookSuccess = (bookId: string) => {
     payload: bookId,
   }
 }
+export const searchBookRequest = (searchTerm: string) => {
+  return {
+    type: booksActionTypes.SEARCH_BOOKS,
+    payload: {
+      searchTerm,
+    },
+  }
+}
 
 export function fetchBooks() {
   return (dispatch: Dispatch) => {
@@ -104,19 +112,18 @@ export const deleteBook = (bookId: string) => {
       })
       dispatch(deleteBookSuccess(bookId))
     } catch (err) {
-      return console.log({err})
+      return console.log({ err })
     }
   }
 }
-
-
-export const findOneBook = async(bookId: string) => {
-    try {
-      const book = await httpRequest(`/books/${bookId}`, {
-        method: 'GET',
-      })
-      return book;
-    } catch (err) {
-      return null;
-    }
+//to complete the edit a book need to get a book by id
+export const findOneBook = async (bookId: string) => {
+  try {
+    const book = await httpRequest(`/books/${bookId}`, {
+      method: 'GET',
+    })
+    return book
+  } catch (err) {
+    return null
   }
+}

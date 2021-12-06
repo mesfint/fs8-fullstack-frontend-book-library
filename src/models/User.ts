@@ -6,5 +6,6 @@ export type User = {
   _id: string
   email: string
   password: string
+  password2: string
   isAdmin: boolean
 }

@@ -16,17 +16,20 @@ const BookList: VoidFunctionComponent = () => {
   const history = useNavigate()
 
   const books = useSelector((state: AppState) => state?.books)
+
   const [deleteBookId, setDeleteBookId] = useState<string | null>(null)
   const dispatch = useDispatch()
+
   useEffect(() => {
     dispatch(fetchBooks())
-  }, [])
+  }, [dispatch])
+
   const deleteBookCallback = (bookId: string) => {
     dispatch(deleteBook(bookId))
     setDeleteBookId(null)
     dispatch(fetchBooks())
   }
-  console.log('BOOOK', books);
+  console.log('BOOOK', books)
   if (books.loading) {
     return <Spinner />
   }
@@ -97,7 +100,9 @@ const BookList: VoidFunctionComponent = () => {
                         {book.title}
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
-                        {book.author ? `${book.author?.firstName} ${book.author?.lastName}` : '-----'}
+                        {book.author
+                          ? `${book.author?.firstName}  ${book.author?.lastName}`
+                          : '-----'}
                       </td>
 
                       <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap ">
@@ -138,7 +143,7 @@ const BookList: VoidFunctionComponent = () => {
           onAccept={() => deleteBookCallback(deleteBookId)}
           onCancel={() => setDeleteBookId(null)}
         >
-          Are you sure to delete this item ?
+          Are you sure to delete this book ?
         </Modal>
       )}
     </>
