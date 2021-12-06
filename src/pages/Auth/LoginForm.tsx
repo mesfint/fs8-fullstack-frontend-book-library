@@ -61,8 +61,8 @@ const Login: VoidFunctionComponent<FormUserType> = ({
       // go
       { id_token: response.tokenObj.is_token }
     )
-    console.log(response)
-    console.log(res, 'response with token')
+    //console.log(response)
+    console.log('response with token from back end=>', res)
   }
 
   const handleIsSignup = () => {
