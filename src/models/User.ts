@@ -9,3 +9,8 @@ export type User = {
   password2: string
   isAdmin: boolean
 }
+
+export type UserStorage = {
+  user: User;
+  token: string;
+}

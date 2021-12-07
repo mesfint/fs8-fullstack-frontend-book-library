@@ -86,9 +86,10 @@ const Login: VoidFunctionComponent<FormUserType> = ({
       )
       console.log('RSSSS', res)
       if (res.data.token) {
-        localStorage.setItem('token', res.data.token)
+        dispatch(
+          googleLoginSuccess({ token: res.data.token, user: res.data.user })
+        )
       }
-      dispatch(googleLoginSuccess({ output, token }))
       history('/users')
     } catch (error) {
       console.log('Error', error)

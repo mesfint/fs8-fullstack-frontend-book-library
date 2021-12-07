@@ -6,15 +6,13 @@ import { routerList } from '../../Routes'
 import { IconType } from '../svg/icons'
 import { useLocation } from 'react-router'
 import LoginForm from '../../pages/Auth/LoginForm'
+import useLogged from '../../utils/useLogged'
 
 const Layout: FunctionComponent = ({ children }) => {
   const [mobileBurger, setMobileBurger] = useState(false)
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem('google-profile'))
-  )
+  const { user, logout } = useLogged()
 
   const location = useLocation()
-  console.log('path-location', location.pathname)
   return (
     <>
       <div>
@@ -49,56 +47,67 @@ const Layout: FunctionComponent = ({ children }) => {
                 </Link>
               </div>
               <div className="flex gap-2 justify-center align-center font-mono">
-                <Link to="users/auth">Login</Link>
+                {user?.user.firstName ? (
+                  <>
+                    <span>{user?.user.firstName}</span>
+                    <button className="bg-red-500 text-white active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onClick={() => logout()}>Logout</button>
+                  </>
+                ) : (
+                  <Link to="users/auth">Login</Link>
+                )}
               </div>
             </div>
           </div>
         </nav>
         <div className="flex overflow-hidden bg-white pt-16">
-          <aside
-            id="sidebar"
-            className={`fixed z-20 h-full top-0 left-0 pt-16 flex lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75 ${
-              !mobileBurger && 'hidden'
-            }`}
-            aria-label="Sidebar"
-          >
-            <div className="relative flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white pt-0">
-              <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
-                <div className="flex-1 px-3 bg-white divide-y space-y-1">
-                  <ul className="space-y-2 pb-2">
-                    {routerList.map(
-                      (route, index) =>
-                        route.icon && (
-                          <li key={index}>
-                            <Link
-                              to={route.path}
-                              className={`text-base rounded-lg flex items-center p-2 hover:bg-gray-100 group ${
-                                location.pathname === route.path
-                                  ? 'text-gray-500 font-bold underline'
-                                  : 'text-gray-900 font-normal'
-                              }`}
-                            >
-                              <Svg
-                                type={route.icon as IconType}
-                                className="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition duration-75"
-                              />
-                              <span className="ml-3">{route.title}</span>
-                            </Link>
-                          </li>
-                        )
-                    )}
-                  </ul>
+          {user?.token && (
+            <aside
+              id="sidebar"
+              className={`fixed z-20 h-full top-0 left-0 pt-16 flex lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75 ${
+                !mobileBurger && 'hidden'
+              }`}
+              aria-label="Sidebar"
+            >
+              <div className="relative flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white pt-0">
+                <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
+                  <div className="flex-1 px-3 bg-white divide-y space-y-1">
+                    <ul className="space-y-2 pb-2">
+                      {routerList.map(
+                        (route, index) =>
+                          route.icon && (
+                            <li key={index}>
+                              <Link
+                                to={route.path}
+                                className={`text-base rounded-lg flex items-center p-2 hover:bg-gray-100 group ${
+                                  location.pathname === route.path
+                                    ? 'text-gray-500 font-bold underline'
+                                    : 'text-gray-900 font-normal'
+                                }`}
+                              >
+                                <Svg
+                                  type={route.icon as IconType}
+                                  className="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition duration-75"
+                                />
+                                <span className="ml-3">{route.title}</span>
+                              </Link>
+                            </li>
+                          )
+                      )}
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-          </aside>
+            </aside>
+          )}
           <div
             className="bg-gray-900 opacity-50 hidden fixed inset-0 z-10"
             id="sidebarBackdrop"
           />
           <div
             id="main-content"
-            className="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64"
+            className={`h-full w-full bg-gray-50 relative overflow-y-auto ${
+              user?.token && 'lg:ml-64'
+            }`}
           >
             <main>
               <div className="pt-6 px-4">{children}</div>

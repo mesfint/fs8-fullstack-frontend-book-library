@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { User } from '../../models/User'
 import Modal from '../../components/Modal'
+import useLogged from '../../utils/useLogged'
 
 const UserList: VoidFunctionComponent = () => {
   let count = 1
@@ -18,6 +19,7 @@ const UserList: VoidFunctionComponent = () => {
   const dispatch = useDispatch()
   const users = useSelector((state: AppState) => state?.users)
   const [deleteUserId, setDeleteUserId] = useState<string | null>(null)
+  const { adminPage } = useLogged()
 
   useEffect(() => {
     dispatch(fetchUsers())
@@ -28,7 +30,7 @@ const UserList: VoidFunctionComponent = () => {
     setDeleteUserId(null)
     dispatch(fetchUsers())
   }
-  console.log('USER', users)
+  adminPage();
   if (users.loading) {
     return <Spinner />
   }
