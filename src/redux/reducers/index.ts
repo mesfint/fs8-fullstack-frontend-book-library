@@ -5,6 +5,7 @@ import books from '../books/books.reducer'
 import authors from '../authors/authors.reducer'
 import users from '../users/users.reducer'
 import userBooks from '../userbooks/userBooks.reducer'
+import authentic from '../authentic/auths.reducer'
 
 const createRootReducer = () =>
   combineReducers({
@@ -13,6 +14,7 @@ const createRootReducer = () =>
     authors,
     users,
     userBooks,
+    authentic,
   })
 
 export default createRootReducer

@@ -11,6 +11,7 @@ import { User } from '../../models/User'
 import ErrorMessage from '../../components/Error'
 import { useNavigate } from 'react-router-dom'
 import { apiUrl } from '../../utils/httpRequest'
+import { googleLoginSuccess } from '../../redux/authentic/auths.action'
 
 type FormUserType = { user?: User }
 
@@ -36,11 +37,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
   const userSubmitForm = () => {
     setsubmitForm(true)
     const isEmpty = Object.values(userFormValue).every(
-      (x) =>
-        //x is a string, so it will never match the number 0.  either convert
-        //it to an integer with parseInt, or compare it to "0"
-        // x === null || !(x as string).length || parsInt(x) === 0 || typeof x === undefined
-        x === null || !(x as string).length || typeof x === undefined
+      (x) => x === null || !(x as string).length || typeof x === undefined
     )
     if (!isEmpty) {
       if (user._id) {
@@ -56,26 +53,44 @@ const Login: VoidFunctionComponent<FormUserType> = ({
   }
 
   const responseGoogle = async (response: any) => {
-    console.log( { idToken: response})
-    try{
+    //console.log({ idToken: response.profileObj })
+    const output = response?.profileObj
+    const token = response?.tokenObj
 
+    // const output = {
+    //   idToken: response?.profileObj,
+    // }
+    // const token = {
+    //   idToken: response?.tokenId,
+    // }
+    console.log('output==>', output)
+    console.log('token==>', token)
+    try {
       let res: any = await axios.post(
         `${apiUrl}/users/google-authenticate`,
         // id_token will be sent to back end that we are confirmed by google let us
         // go
-        { id_token: response.tokenObj.id_token, id: response.googleId, 
-          firstName: response.profileObj.givenName, lastName: response.profileObj.familyName,
-        email: response.profileObj.email },
-        {headers: {
-          'Content-Type': 'application/json',
-          //'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }}
+        {
+          id_token: response.tokenObj.id_token,
+          id: response.googleId,
+          firstName: response.profileObj.givenName,
+          lastName: response.profileObj.familyName,
+          email: response.profileObj.email,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            //'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+        }
       )
-      console.log('RSSSS', res);
-      if(res.data.token) {
-        localStorage.setItem('token', res.data.token);
+      console.log('RSSSS', res)
+      if (res.data.token) {
+        localStorage.setItem('token', res.data.token)
       }
-    }catch(error) {
+      dispatch(googleLoginSuccess({ output, token }))
+      history('/users')
+    } catch (error) {
       console.log('Error', error)
     }
   }

@@ -9,6 +9,10 @@ import LoginForm from '../../pages/Auth/LoginForm'
 
 const Layout: FunctionComponent = ({ children }) => {
   const [mobileBurger, setMobileBurger] = useState(false)
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem('google-profile'))
+  )
+
   const location = useLocation()
   console.log('path-location', location.pathname)
   return (
