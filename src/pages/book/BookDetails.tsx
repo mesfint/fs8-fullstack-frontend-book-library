@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import Spinner from '../../components/Spinner'
+import { Author } from '../../models/Author'
 import { AppState } from '../../types'
 
 const BookDetails = () => {
@@ -14,7 +15,7 @@ const BookDetails = () => {
 
   return (
     <div>
-      <div className=" border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
+      <div className=" border-r border-l border-b  border-gray-400 lg:border-l lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-l lg:rounded-r p-4 flex flex-col justify-between leading-normal">
         <div className="flex gap-5">
           <div>
             <img
@@ -30,6 +31,7 @@ const BookDetails = () => {
               <span className="text-gray-600 font-medium mr-1">Author: </span>{' '}
               {book?.author?.firstName}
             </p>
+
             <p className="text-sm">
               <span className="text-gray-600 font-medium mr-1">
                 {' '}
@@ -46,10 +48,6 @@ const BookDetails = () => {
             <p className="text-green-600 text-xs">
               {book?.quantity} books Available
             </p>
-
-            {/* <p className="text-green-600 text-xs">
-              {book?.quantity } books Available
-            </p> */}
           </div>
           <div>
             <Link

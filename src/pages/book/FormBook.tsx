@@ -17,6 +17,7 @@ import ErrorMessage from '../../components/Error'
 import { useNavigate } from 'react-router-dom'
 import { fetchAuthors } from '../../redux/authors/authors.action'
 import { Author } from '../../models/Author'
+import { useLocation } from 'react-router-dom'
 
 type FormBookType = { book?: Book }
 
@@ -38,6 +39,7 @@ const FormBook: VoidFunctionComponent<FormBookType> = ({
   const authors = useSelector((state: AppState) => state?.authors.authors)
   const dispatch = useDispatch()
   const history = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     dispatch(fetchAuthors())
@@ -56,6 +58,7 @@ const FormBook: VoidFunctionComponent<FormBookType> = ({
         dispatch(editBook(formValue, history))
       } else {
         dispatch(postBook(formValue, history))
+        history('/')
       }
     }
   }

@@ -11,6 +11,7 @@ import useLogged from '../../utils/useLogged'
 const Layout: FunctionComponent = ({ children }) => {
   const [mobileBurger, setMobileBurger] = useState(false)
   const { user, logout } = useLogged()
+  console.log('user====>', user)
 
   const location = useLocation()
   return (
@@ -46,11 +47,21 @@ const Layout: FunctionComponent = ({ children }) => {
                   <span className="self-center whitespace-nowrap">Library</span>
                 </Link>
               </div>
+              <div className="flex  ">
+                <Link to="/book/ListBorrowedBooks" className="items-end">
+                  My Cart {'(0 books)'}{' '}
+                </Link>
+              </div>
               <div className="flex gap-2 justify-center align-center font-mono">
-                {user?.user.firstName ? (
+                {user?.user?.firstName ? (
                   <>
                     <span>{user?.user.firstName}</span>
-                    <button className="bg-red-500 text-white active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" onClick={() => logout()}>Logout</button>
+                    <button
+                      className="bg-red-500 text-white active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      onClick={() => logout()}
+                    >
+                      Logout
+                    </button>
                   </>
                 ) : (
                   <Link to="users/auth">Login</Link>

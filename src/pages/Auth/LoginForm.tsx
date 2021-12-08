@@ -76,6 +76,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
           firstName: response.profileObj.givenName,
           lastName: response.profileObj.familyName,
           email: response.profileObj.email,
+          imageUrl: response.profileObj.imageUrl,
         },
         {
           headers: {

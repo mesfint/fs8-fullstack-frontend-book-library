@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useLayoutEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ImageWithFallback from '../components/Image'
 import { AppState } from '../types'
+import { Book } from '../models/Book'
 import { generateRating } from '../utils/starGen'
 import { fetchBooks, searchBookRequest } from '../redux/books/books.action'
 
-export default function Home() {
+function Home() {
   const dispatch = useDispatch()
   const books = useSelector((state: AppState) => state.books?.filteredBooks)
-  console.log('filteredBooks', books)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const searchTerm = useSelector((state: AppState) => state.books.searchTerm)
+  //return a book with max rating
+
   const catagory = ['Science', 'History', 'Poetry', 'Sci-Fiction']
 
   //filter books by catagory
@@ -21,18 +24,23 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(fetchBooks())
-  }, [dispatch])
+  }, [])
+
+  useLayoutEffect(() => {
+    inputRef.current?.focus()
+  })
 
   return (
     <>
-      <div className="flex items-center justify-left text-sm w-80  mt-3 mb-3">
-        <div className="flex border-2 rounded ">
+      <div className="flex items-center max-w-md mx-auto text-sm w-80  mt-3 mb-3 ">
+        <div className="  border-2 rounded flex md:items-center mb-6 ">
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => dispatch(searchBookRequest(e.target.value))}
-            className="px-4 py-2 "
+            className="px-4 py-2"
             placeholder="Search by title,author or genre..."
+            ref={inputRef}
           />
           <button className="flex items-center justify-center px-4 border-l">
             <svg
@@ -46,8 +54,9 @@ export default function Home() {
           </button>
         </div>
       </div>
-      <h1 className="text-lg font-bold mb-3 mt-12 ">Book Genres</h1>
-      <div className="flex mb-5 mt-5">
+      <h1 className="text-lg font-bold mb-3 mt-12 text-center ">Book Genres</h1>
+
+      <div className="flex mb-5 mt-5 justify-center">
         <button
           className="flex-none bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-4 border border-gray-400 rounded-lg mr-2"
           onClick={() => dispatch(fetchBooks())}
@@ -66,11 +75,11 @@ export default function Home() {
         ))}
       </div>
 
-      <h1 className="text-lg text-black font-bold py-2 my-2">
+      <h1 className="text-lg text-black text-center font-bold py-2 my-2">
         Currently added books
       </h1>
 
-      <div className="h-74 grid grid-rows-2 grid-flow-col gap-6 ">
+      <div className="h-74 grid grid-rows-2 grid-flow-col gap-20 justify-center ">
         {books.map((book) => (
           <div key={book.bookId} className=" py-6 font-normal  ">
             <Link to={`/book/${book._id}`}>
@@ -92,3 +101,4 @@ export default function Home() {
     </>
   )
 }
+export default Home

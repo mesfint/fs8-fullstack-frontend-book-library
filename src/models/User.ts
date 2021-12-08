@@ -5,12 +5,13 @@ export type User = {
   userName: string
   _id: string
   email: string
+  imageUrl?: string
   password: string
   password2: string
   isAdmin: boolean
 }
 
 export type UserStorage = {
-  user: User;
-  token: string;
+  user: User
+  token: string
 }
