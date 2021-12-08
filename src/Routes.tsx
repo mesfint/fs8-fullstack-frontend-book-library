@@ -51,7 +51,7 @@ export const routerList: PathRouterType[] = [
     title: 'Borrowed Books',
   },
   {
-    path: '/userBooks/BorrowBook',
+    path: '/userBooks/BorrowBook/:_id',
     element: <BorrowBook />,
     title: 'Borrow book',
   },

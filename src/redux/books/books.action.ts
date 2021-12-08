@@ -5,20 +5,20 @@ import { booksActionTypes } from './books.types'
 
 export const fetchBooksRequest = () => {
   return {
-    type: booksActionTypes.FETCH_LIST_PENDING,
+    type: booksActionTypes.FETCH_BOOK_LIST_PENDING,
   }
 }
 
 export const fetchBooksSuccess = (books: Book[]) => {
   return {
-    type: booksActionTypes.FETCH_LIST_SUCCESS,
+    type: booksActionTypes.FETCH_BOOK_LIST_SUCCESS,
     payload: books,
   }
 }
 
 export const fetchBooksFailure = (error: string) => {
   return {
-    type: booksActionTypes.FETCH_LIST_ERROR,
+    type: booksActionTypes.FETCH_BOOK_LIST_ERROR,
     payload: error,
   }
 }
@@ -48,7 +48,7 @@ export const deleteBookSuccess = (bookId: string) => {
     payload: bookId,
   }
 }
-export const searchBookRequest = (searchTerm: string) => {
+export const searchBookRequest = (searchTerm?: string) => {
   return {
     type: booksActionTypes.SEARCH_BOOKS,
     payload: {
@@ -61,7 +61,10 @@ export function fetchBooks() {
   return (dispatch: Dispatch) => {
     dispatch(fetchBooksRequest())
     return httpRequest(`/books`)
-      .then((books) => dispatch(fetchBooksSuccess(books)))
+      .then((books) => {
+        console.log('FETCH BOOKS', books);
+        dispatch(fetchBooksSuccess(books))
+      })
       .catch((err) => dispatch(fetchBooksFailure(err)))
   }
 }

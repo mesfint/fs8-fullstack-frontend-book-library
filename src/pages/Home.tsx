@@ -9,23 +9,22 @@ import { fetchBooks, searchBookRequest } from '../redux/books/books.action'
 
 function Home() {
   const dispatch = useDispatch()
-  const books = useSelector((state: AppState) => state.books?.filteredBooks)
+  const filteredBooks = useSelector((state: AppState) => state.books?.filteredBooks)
+  const allBooks = useSelector((state: AppState) => state.books?.books)
+  const books = filteredBooks ?? allBooks;
   const inputRef = useRef<HTMLInputElement>(null)
-
   const searchTerm = useSelector((state: AppState) => state.books.searchTerm)
   //return a book with max rating
 
-  const catagory = ['Science', 'History', 'Poetry', 'Sci-Fiction']
+  const categories = ['Science', 'History', 'Poetry', 'Sci-Fiction']
 
   //filter books by catagory
-  const filterBooks = (catagory: string) => {
+  const filterBooks = (catagory?: string) => {
     dispatch(searchBookRequest(catagory))
   }
-
   useEffect(() => {
     dispatch(fetchBooks())
   }, [])
-
   useLayoutEffect(() => {
     inputRef.current?.focus()
   })
@@ -59,12 +58,12 @@ function Home() {
       <div className="flex mb-5 mt-5 justify-center">
         <button
           className="flex-none bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-4 border border-gray-400 rounded-lg mr-2"
-          onClick={() => dispatch(fetchBooks())}
+          onClick={() => filterBooks()}
         >
           All
         </button>
 
-        {catagory.map((catagory) => (
+        {categories.map((catagory) => (
           <button
             key={catagory}
             className="flex-none bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-4 border border-gray-400 rounded-lg mr-2"

@@ -52,7 +52,7 @@ const BookDetails = () => {
           <div>
             <Link
               className="bg-gray-500 hover:bg-indigo-400 text-white font-md py-1 px-2 rounded"
-              to="/userBooks/BorrowBook"
+              to={`/userBooks/BorrowBook/${book?._id}`}
             >
               {book?.quantity === 0 ? 'Request it' : 'Borrow it'}
             </Link>

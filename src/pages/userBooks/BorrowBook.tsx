@@ -4,13 +4,18 @@ import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import Spinner from '../../components/Spinner'
 import { AppState } from '../../types'
+import { useNavigate } from 'react-router-dom'
 
 const BorrowBook = () => {
   const { _id } = useParams()
+  const history = useNavigate();
 
   const book = useSelector((state: AppState) =>
     state.books?.books.find((book) => book._id === _id)
   )
+  if(!book) {
+    history('/');
+  }
 
   //check if user has book
   // const checkUserBook = (userBook: UserBook) => {
@@ -66,7 +71,7 @@ const BorrowBook = () => {
           <div>
             <Link
               className="bg-gray-500 hover:bg-indigo-400 text-white font-md py-1 px-2 rounded"
-              to="/userBooks/BorrowBook"
+              to={`/userBooks/BorrowBook/${book?._id}`}
             >
               Add to cart
             </Link>

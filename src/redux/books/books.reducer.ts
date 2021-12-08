@@ -6,30 +6,30 @@ import { booksActionTypes } from './books.types'
 export type BooksState = {
   loading: boolean
   books: Book[]
-  filteredBooks: Book[]
+  filteredBooks?: Book[]
   searchTerm: string
   error?: ApiError
 }
 export const initialBooksState: BooksState = {
   loading: false,
   books: [],
-  filteredBooks: [],
+  filteredBooks: undefined,
   searchTerm: '',
   error: undefined,
 }
 
 const reducer = (state = initialBooksState, action: AnyAction) => {
   switch (action.type) {
-    case booksActionTypes.FETCH_LIST_PENDING:
+    case booksActionTypes.FETCH_BOOK_LIST_PENDING:
       return { ...state, loading: true }
-    case booksActionTypes.FETCH_LIST_SUCCESS:
+    case booksActionTypes.FETCH_BOOK_LIST_SUCCESS:
       return {
         ...state,
         books: action.payload,
         error: undefined,
         loading: false,
       }
-    case booksActionTypes.FETCH_LIST_ERROR:
+    case booksActionTypes.FETCH_BOOK_LIST_ERROR:
       return { ...state, books: [], error: action.payload, loading: false }
     case booksActionTypes.ADD_BOOK_PENDING:
       return { ...state, loading: true }
@@ -58,17 +58,16 @@ const reducer = (state = initialBooksState, action: AnyAction) => {
       const filteredBooks = state.books.filter((b) => {
         //Search book by title or author firstName or Genre
         return (
-          b.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          b.title.toLowerCase().includes(searchTerm?.toLowerCase()) ||
           b.author?.firstName
             .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          b.category.toLowerCase().includes(searchTerm.toLowerCase())
+            .includes(searchTerm?.toLowerCase()) ||
+          b.category.toLowerCase().includes(searchTerm?.toLowerCase())
         )
       })
-
       return {
         ...state,
-        filteredBooks,
+        filteredBooks:  !!searchTerm ? filteredBooks: undefined,
         searchTerm,
       }
     default:
