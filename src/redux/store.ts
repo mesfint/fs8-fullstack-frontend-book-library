@@ -10,7 +10,7 @@ import { initialBooksState } from './books/books.reducer'
 import { initialAuthorState } from './authors/authors.reducer'
 import { initialUserState } from './users/users.reducer'
 import { initialUserBooksState } from './userbooks/userBooks.reducer'
-import { initialAuthsState } from './authentic/auths.reducer'
+import { initialAuthsState } from './authentic/auth.reducer.google'
 
 const initState: AppState = {
   product: {

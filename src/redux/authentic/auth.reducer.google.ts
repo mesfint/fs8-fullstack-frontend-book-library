@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux'
 import { ApiError } from '../../models/ApiError'
-import { authActionTypes } from './auth.types'
+import { authActionTypes } from './auth.types.google'
 
 export type AuthsState = {
   loading: boolean

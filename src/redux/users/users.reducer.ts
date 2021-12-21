@@ -29,7 +29,7 @@ export const reducer = (state = initialUserState, action: AnyAction) => {
       return { ...state, users: [], error: action.payload, loading: false }
     case userActionTypes.ADD_USER_PENDING:
       return { ...state, loading: true }
-    case userActionTypes.ADD_USER_SUCCESS:
+    case userActionTypes.SIGN_UP:
       return {
         ...state,
         users: [...state.users, action.payload],

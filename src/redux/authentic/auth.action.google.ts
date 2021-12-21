@@ -1,4 +1,4 @@
-import { authActionTypes } from './auth.types'
+import { authActionTypes } from './auth.types.google'
 
 export const googleLoginSuccess = (authData: any) => {
   return {

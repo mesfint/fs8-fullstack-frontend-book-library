@@ -7,7 +7,7 @@ export type User = {
   email: string
   imageUrl?: string
   password: string
-  password2: string
+  confirmPassword: string
   isAdmin: boolean
 }
 

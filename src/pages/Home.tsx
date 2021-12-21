@@ -9,12 +9,13 @@ import { fetchBooks, searchBookRequest } from '../redux/books/books.action'
 
 function Home() {
   const dispatch = useDispatch()
-  const filteredBooks = useSelector((state: AppState) => state.books?.filteredBooks)
+  const filteredBooks = useSelector(
+    (state: AppState) => state.books?.filteredBooks
+  )
   const allBooks = useSelector((state: AppState) => state.books?.books)
-  const books = filteredBooks ?? allBooks;
+  const books = filteredBooks ?? allBooks
   const inputRef = useRef<HTMLInputElement>(null)
   const searchTerm = useSelector((state: AppState) => state.books.searchTerm)
-  //return a book with max rating
 
   const categories = ['Science', 'History', 'Poetry', 'Sci-Fiction']
 

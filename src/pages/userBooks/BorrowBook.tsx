@@ -8,31 +8,14 @@ import { useNavigate } from 'react-router-dom'
 
 const BorrowBook = () => {
   const { _id } = useParams()
-  const history = useNavigate();
+  const history = useNavigate()
 
   const book = useSelector((state: AppState) =>
     state.books?.books.find((book) => book._id === _id)
   )
-  if(!book) {
-    history('/');
+  if (!book) {
+    history('/')
   }
-
-  //check if user has book
-  // const checkUserBook = (userBook: UserBook) => {
-  //   return async (dispatch: Dispatch) => {
-  //     const userBooks = await httpRequest('/userbooks')
-  //     const userBookExists = userBooks.find(
-  //       (userBook: { userId: string; bookId: string }) =>
-  //         userBook.userId === user._id &&
-  //         userBook.bookId === book?._id
-  //     )
-  //     if (userBookExists) {
-  //       return dispatch(borrowBookFailure('Book already borrowed'))
-  //     } else {
-  //       return dispatch(borrowBookSuccess(userBook))
-  //     }
-  //   }
-  // }
 
   return (
     <div>

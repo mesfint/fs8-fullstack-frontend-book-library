@@ -55,8 +55,8 @@ const reducer = (state = initialBooksState, action: AnyAction) => {
       }
     case booksActionTypes.SEARCH_BOOKS:
       const searchTerm = action.payload.searchTerm
+      //Search book by title or author firstName or Genre
       const filteredBooks = state.books.filter((b) => {
-        //Search book by title or author firstName or Genre
         return (
           b.title.toLowerCase().includes(searchTerm?.toLowerCase()) ||
           b.author?.firstName
@@ -67,7 +67,7 @@ const reducer = (state = initialBooksState, action: AnyAction) => {
       })
       return {
         ...state,
-        filteredBooks:  !!searchTerm ? filteredBooks: undefined,
+        filteredBooks: !!searchTerm ? filteredBooks : undefined,
         searchTerm,
       }
     default:

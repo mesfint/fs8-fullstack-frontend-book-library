@@ -30,7 +30,7 @@ export const addUserRequest = () => {
 
 export const addUserSuccess = (newUser: User[]) => {
   return {
-    type: userActionTypes.ADD_USER_SUCCESS,
+    type: userActionTypes.SIGN_UP,
     payload: newUser,
   }
 }

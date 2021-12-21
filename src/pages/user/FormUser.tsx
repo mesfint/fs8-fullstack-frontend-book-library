@@ -18,6 +18,8 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
     lastName: '',
     userName: '',
     email: '',
+    password: '',
+    confirmPassword: '',
   } as User,
 }) => {
   const users = useSelector((state: AppState) => state?.users)
@@ -31,11 +33,7 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
   const userSubmitForm = () => {
     setsubmitForm(true)
     const isEmpty = Object.values(userFormValue).every(
-      (x) =>
-        //x is a string, so it will never match the number 0.  either convert
-        //it to an integer with parseInt, or compare it to "0"
-        // x === null || !(x as string).length || parsInt(x) === 0 || typeof x === undefined
-        x === null || !(x as string).length || typeof x === undefined
+      (x) => x === null || !(x as string).length || typeof x === undefined
     )
     if (!isEmpty) {
       if (user._id) {
@@ -44,7 +42,7 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
         dispatch(postUser(userFormValue, history))
       }
     }
-    dispatch(postUser(userFormValue, history))
+    //dispatch(postUser(userFormValue, history))
   }
   if (users.loading) {
     return <Spinner />
@@ -191,6 +189,7 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
                       </p>
                     )}
                   </div>
+
                   <div className="mb-3 space-y-2 w-full text-xs">
                     <label
                       htmlFor="password"
@@ -221,6 +220,40 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
                         Please fill out this field.
                       </p>
                     )}
+                  </div>
+                  <div className="mb-3 space-y-2 w-full text-xs">
+                    <label
+                      htmlFor="confirmPassword"
+                      className="font-semibold text-gray-600 py-2"
+                    >
+                      Confirm Password
+                      <abbr className="text-red-500" title="required">
+                        *
+                      </abbr>
+                    </label>
+                    <input
+                      placeholder="Confirm Password"
+                      className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
+                      required
+                      type="password"
+                      name="confirmPassword"
+                      id="confirmPassword"
+                      value={userFormValue?.confirmPassword}
+                      onChange={(e) =>
+                        setuserFormValue({
+                          ...userFormValue,
+                          confirmPassword: e.target.value,
+                        })
+                      }
+                    />
+                    {submitForm &&
+                      !userFormValue.confirmPassword &&
+                      userFormValue.password !==
+                        userFormValue.confirmPassword && (
+                        <p className="text-red-500 text-xs">
+                          Please correct this field.
+                        </p>
+                      )}
                   </div>
                 </div>
 

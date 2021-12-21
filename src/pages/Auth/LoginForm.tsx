@@ -11,7 +11,7 @@ import { User } from '../../models/User'
 import ErrorMessage from '../../components/Error'
 import { useNavigate } from 'react-router-dom'
 import { apiUrl } from '../../utils/httpRequest'
-import { googleLoginSuccess } from '../../redux/authentic/auths.action'
+import { googleLoginSuccess } from '../../redux/authentic/auth.action.google'
 
 type FormUserType = { user?: User }
 
@@ -23,7 +23,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
     userName: '',
     email: '',
     password: '',
-    password2: '',
+    confirmPassword: '',
   } as User,
 }) => {
   const users = useSelector((state: AppState) => state?.users)
@@ -46,7 +46,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
         dispatch(postUser(userFormValue, history))
       }
     }
-    dispatch(postUser(userFormValue, history))
+    //dispatch(postUser(userFormValue, history))
   }
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault()
@@ -276,10 +276,10 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                       )}
                     </label>
                   </div>
-                  {/* {isSignup && (
+                  {isSignup && (
                     <div className="mb-3 space-y-2 w-full text-xs">
                       <label
-                        htmlFor="password2"
+                        htmlFor="confirmPassword"
                         className="font-semibold text-gray-600 py-2"
                       >
                         Confirm Password
@@ -292,25 +292,26 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                         className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4"
                         required
                         type="password"
-                        name="password2"
-                        id="password2"
-                        value={userFormValue?.password2}
+                        name="confirmPassword"
+                        id="confirmPassword"
+                        value={userFormValue?.confirmPassword}
                         onChange={(e) =>
                           setuserFormValue({
                             ...userFormValue,
-                            password2: e.target.value,
+                            confirmPassword: e.target.value,
                           })
                         }
                       />
                       {submitForm &&
-                        !userFormValue.password2 &&
-                        userFormValue.password !== userFormValue.password2 && (
+                        !userFormValue.confirmPassword &&
+                        userFormValue.password !==
+                          userFormValue.confirmPassword && (
                           <p className="text-red-500 text-xs">
                             Please correct this field.
                           </p>
                         )}
                     </div>
-                  )} */}
+                  )}
                 </div>
 
                 <p className="text-xs text-red-500 text-center my-5">
