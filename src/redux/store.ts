@@ -1,24 +1,36 @@
-import { createStore, applyMiddleware, compose } from 'redux'
-//import createSagaMiddleware from 'redux-saga'
+import { createStore, applyMiddleware, compose, Middleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
 import thunk from 'redux-thunk'
+import reduxImmutableState from 'redux-immutable-state-invariant'
 
-import { AppState } from '../types/bookTypes'
-
+import { AppState } from '../types'
 import createRootReducer from './reducers'
-//import rootSaga from './sagas'
+import rootSaga from './sagas'
+import { initialBooksState } from './books/books.reducer'
+import { initialAuthorState } from './authors/authors.reducer'
+import { initialUserState } from './users/users.reducer'
+import { initialUserBooksState } from './userbooks/userBooks.reducer'
+import { initialAuthsState } from './authentic/auth.reducer.google'
 
 const initState: AppState = {
-  books: {
-    allBooks: [],
+  product: {
+    inCart: [],
   },
+  books: initialBooksState,
+  authors: initialAuthorState,
+  users: initialUserState,
+  userBooks: initialUserBooksState,
+  auths: initialAuthsState,
 }
 
 export default function makeStore(initialState = initState) {
-  // const sagaMiddleware = createSagaMiddleware()
-  const middlewares = [thunk]
+  const sagaMiddleware = createSagaMiddleware()
+  let middlewares: Middleware<any, any, any>[] = [sagaMiddleware, thunk]
   let composeEnhancers = compose
 
   if (process.env.NODE_ENV === 'development') {
+    const immutableRedux = reduxImmutableState({})
+    middlewares.push(immutableRedux)
     if ((window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
       composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     }
@@ -30,7 +42,7 @@ export default function makeStore(initialState = initState) {
     composeEnhancers(applyMiddleware(...middlewares))
   )
 
-  //sagaMiddleware.run(rootSaga)
+  sagaMiddleware.run(rootSaga)
 
   if ((module as any).hot) {
     ;(module as any).hot.accept('./reducers', () => {

@@ -1,3 +1,8 @@
+import { BooksState } from './redux/books/books.reducer'
+import { AuthorsState } from './redux/authors/authors.reducer'
+import { UsersState } from './redux/users/users.reducer'
+import { UserBooksState } from './redux/userbooks/userBooks.reducer'
+import { AuthsState } from './redux/authentic/auth.reducer.google'
 // Action types
 export const ADD_PRODUCT = 'ADD_PRODUCT'
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT'
@@ -32,4 +37,9 @@ export type ProductState = {
 
 export type AppState = {
   product: ProductState
+  books: BooksState
+  authors: AuthorsState
+  users: UsersState
+  userBooks: UserBooksState
+  auths: AuthsState
 }
