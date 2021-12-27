@@ -4,11 +4,6 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.4.2",
-<<<<<<< .merge_file_4SRqcb
-    "@material-ui/core": "^4.12.3",
-    "@material-ui/icons": "^4.11.2",
-=======
->>>>>>> .merge_file_1Z7h3h
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
@@ -20,13 +15,8 @@
     "@types/react-router-dom": "^5.3.2",
     "@types/redux-saga": "^0.10.5",
     "@types/redux-thunk": "^2.1.0",
-<<<<<<< .merge_file_4SRqcb
-    "@types/styled-components": "^5.1.15",
-    "axios": "^0.24.0",
-=======
     "axios": "^0.24.0",
     "moment": "^2.29.1",
->>>>>>> .merge_file_1Z7h3h
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-google-login": "^5.2.2",
@@ -44,11 +34,7 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-<<<<<<< .merge_file_4SRqcb
-    "eject": "react-scripts eject",
-=======
     "eject": "craco eject",
->>>>>>> .merge_file_1Z7h3h
     "lint": "eslint --fix '**/*.{ts,tsx}'"
   },
   "eslintConfig": {
@@ -67,19 +53,13 @@
     ]
   },
   "devDependencies": {
-<<<<<<< .merge_file_4SRqcb
-=======
     "@types/react-portal": "^4.0.4",
     "@types/redux-immutable-state-invariant": "^2.1.2",
->>>>>>> .merge_file_1Z7h3h
     "autoprefixer": "^9",
     "husky": "^7.0.4",
     "lint-staged": "^12.0.2",
     "postcss": "^7",
-<<<<<<< .merge_file_4SRqcb
-=======
     "redux-immutable-state-invariant": "^2.1.0",
->>>>>>> .merge_file_1Z7h3h
     "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   },
   "husky": {
