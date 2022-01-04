@@ -47,11 +47,7 @@ const Layout: FunctionComponent = ({ children }) => {
                   <span className="self-center whitespace-nowrap">Library</span>
                 </Link>
               </div>
-              <div className="flex  ">
-                <Link to="/book/ListBorrowedBooks" className="items-end">
-                  My Cart {'(0 books)'}{' '}
-                </Link>
-              </div>
+
               <div className="flex gap-2 justify-center align-center font-mono">
                 {user?.user?.firstName ? (
                   <>

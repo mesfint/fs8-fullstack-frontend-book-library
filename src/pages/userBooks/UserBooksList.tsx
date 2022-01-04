@@ -44,10 +44,6 @@ const UserBooksList: VoidFunctionComponent = () => {
                     </th>
 
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      User
-                    </th>
-
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
                       Date Borrowed
                     </th>
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
@@ -55,10 +51,7 @@ const UserBooksList: VoidFunctionComponent = () => {
                     </th>
 
                     <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Edit
-                    </th>
-                    <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                      Delete
+                      Return
                     </th>
                   </tr>
                 </thead>
@@ -70,11 +63,9 @@ const UserBooksList: VoidFunctionComponent = () => {
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
                         {userBook.book.title}
+                        Half of a Yellow sun
                       </td>
 
-                      <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap ">
-                        {'first name'}
-                      </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
                         {moment(userBook.borrowDate).format('MMM Do YYYY')}
                       </td>
@@ -82,20 +73,12 @@ const UserBooksList: VoidFunctionComponent = () => {
                         {moment(userBook.returnDate).format('MMM Do YYYY')}
                       </td>
 
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">
-                        <Link
-                          to={''}
-                          className="bg-yellow-200 text-black active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        >
-                          Edit
-                        </Link>
-                      </td>
                       <td>
                         <Link
-                          to="/userBooks"
-                          className="bg-red-500 text-white active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none ml-2 mb-1 ease-linear transition-all duration-150"
+                          to="/returnBook"
+                          className="bg-indigo-500 text-white active:bg-red-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none ml-2 mb-1 ease-linear transition-all duration-150"
                         >
-                          Delete
+                          Return
                         </Link>
                       </td>
                     </tr>

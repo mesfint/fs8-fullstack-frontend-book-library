@@ -58,10 +58,30 @@ export function fetchUsers() {
   }
 }
 
-export const postUser = (user: User, history: any) => {
+export const registerUser = (user: User, history: any) => {
   return (dispatch: Dispatch) => {
     dispatch(addUserRequest())
-    return httpRequest(`/users`, {
+    return httpRequest(`/users/signup`, {
+      method: 'post',
+      body: JSON.stringify(user),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((user) => {
+        dispatch(addUserSuccess(user))
+        history('/users')
+      })
+      .catch((err) => dispatch(addUserFailure(err)))
+  }
+}
+
+//sign in
+export const signInUser = (user: User, history: any) => {
+  return (dispatch: Dispatch) => {
+    dispatch(addUserRequest())
+    return httpRequest(`/users/signin`, {
       method: 'post',
       body: JSON.stringify(user),
       headers: {

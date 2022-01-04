@@ -5,12 +5,14 @@ import { Link } from 'react-router-dom'
 import GoogleLogin from 'react-google-login'
 import axios from 'axios'
 import { AppState } from '../../types'
-import { editUser, postUser } from '../../redux/users/users.action'
+import { editUser, registerUser } from '../../redux/users/users.action'
+import { signUpUser } from '../../redux/auths/auth.action'
 import Spinner from '../../components/Spinner'
 import { User } from '../../models/User'
 import ErrorMessage from '../../components/Error'
 import { useNavigate } from 'react-router-dom'
 import { apiUrl } from '../../utils/httpRequest'
+
 import { googleLoginSuccess } from '../../redux/authentic/auth.action.google'
 
 type FormUserType = { user?: User }
@@ -33,6 +35,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
   const [userFormValue, setuserFormValue] = useState<User>(user)
   const [submitForm, setsubmitForm] = useState(false)
   const [isSignup, setIsSignup] = useState(false)
+  const [isSignIn, setIsSignIn] = useState(false)
 
   const userSubmitForm = () => {
     setsubmitForm(true)
@@ -43,11 +46,21 @@ const Login: VoidFunctionComponent<FormUserType> = ({
       if (user._id) {
         dispatch(editUser(userFormValue, history))
       } else {
-        dispatch(postUser(userFormValue, history))
+        dispatch(registerUser(userFormValue, history))
       }
     }
-    //dispatch(postUser(userFormValue, history))
+    if (userFormValue.password !== userFormValue.confirmPassword) {
+      alert('password not match')
+    } else if (!isEmpty) {
+      if (user._id) {
+        dispatch(editUser(userFormValue, history))
+      } else {
+        dispatch(signUpUser(userFormValue, history))
+      }
+    }
   }
+  //signIn with email and password
+
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault()
   }
@@ -57,14 +70,6 @@ const Login: VoidFunctionComponent<FormUserType> = ({
     const output = response?.profileObj
     const token = response?.tokenObj
 
-    // const output = {
-    //   idToken: response?.profileObj,
-    // }
-    // const token = {
-    //   idToken: response?.tokenId,
-    // }
-    console.log('output==>', output)
-    console.log('token==>', token)
     try {
       let res: any = await axios.post(
         `${apiUrl}/users/google-authenticate`,
@@ -212,6 +217,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                     </div>
                   </div>
                 )}
+                {/* Sign In form Inputs */}
 
                 <div className="md:flex flex-row md:space-x-4 w-full text-xs">
                   <div className="mb-3 space-y-2 w-full text-xs">

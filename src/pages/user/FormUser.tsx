@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { AppState } from '../../types'
-import { editUser, postUser } from '../../redux/users/users.action'
+import { editUser, registerUser } from '../../redux/users/users.action'
 import Spinner from '../../components/Spinner'
 import { Link } from 'react-router-dom'
 import { User } from '../../models/User'
@@ -30,19 +30,21 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
   const [userFormValue, setuserFormValue] = useState<User>(user)
   const [submitForm, setsubmitForm] = useState(false)
 
-  const userSubmitForm = () => {
+  const userSubmitForm = (e: React.ChangeEvent<HTMLInputElement> | any) => {
+    e.preventDefault()
     setsubmitForm(true)
     const isEmpty = Object.values(userFormValue).every(
       (x) => x === null || !(x as string).length || typeof x === undefined
     )
-    if (!isEmpty) {
+    if (userFormValue.password !== userFormValue.confirmPassword) {
+      alert('password not match')
+    } else if (!isEmpty) {
       if (user._id) {
         dispatch(editUser(userFormValue, history))
       } else {
-        dispatch(postUser(userFormValue, history))
+        dispatch(registerUser(userFormValue, history))
       }
     }
-    //dispatch(postUser(userFormValue, history))
   }
   if (users.loading) {
     return <Spinner />
@@ -84,7 +86,7 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
                       onChange={(e) =>
                         setuserFormValue({
                           ...userFormValue,
-                          firstName: e.target.value,
+                          [e.target.name]: e.target.value,
                         })
                       }
                     />
@@ -148,7 +150,7 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
                       onChange={(e) =>
                         setuserFormValue({
                           ...userFormValue,
-                          userName: e.target.value,
+                          [e.target.name]: e.target.value,
                         })
                       }
                     />
@@ -179,7 +181,7 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
                       onChange={(e) =>
                         setuserFormValue({
                           ...userFormValue,
-                          email: e.target.value,
+                          [e.target.name]: e.target.value,
                         })
                       }
                     />
@@ -211,7 +213,7 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
                       onChange={(e) =>
                         setuserFormValue({
                           ...userFormValue,
-                          password: e.target.value,
+                          [e.target.name]: e.target.value,
                         })
                       }
                     />
@@ -242,7 +244,7 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
                       onChange={(e) =>
                         setuserFormValue({
                           ...userFormValue,
-                          confirmPassword: e.target.value,
+                          [e.target.name]: e.target.value,
                         })
                       }
                     />
@@ -271,7 +273,7 @@ const FormUser: VoidFunctionComponent<FormUserType> = ({
                     Cancel
                   </Link>
                   <button
-                    onClick={() => userSubmitForm()}
+                    onClick={(e) => userSubmitForm(e)}
                     className="mb-2 md:mb-0 bg-indigo-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500"
                   >
                     Save

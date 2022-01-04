@@ -17,6 +17,7 @@ import EditAuthor from './pages/author/EditAuthor'
 import UserBooksList from './pages/userBooks/UserBooksList'
 import BorrowBook from './pages/userBooks/BorrowBook'
 import FormUser from './pages/user/FormUser'
+import ReturnBook from './pages/userBooks/ReturnBook'
 
 type PathRouterType = PathRouteProps & {
   icon?: IconType
@@ -49,6 +50,10 @@ export const routerList: PathRouterType[] = [
     element: <UserBooksList />,
     icon: 'userBooks',
     title: 'Borrowed Books',
+  },
+  {
+    path: '/returnBook',
+    element: <ReturnBook />,
   },
   {
     path: '/userBooks/BorrowBook/:_id',

@@ -20,12 +20,12 @@ function Home() {
   const categories = ['Science', 'History', 'Poetry', 'Sci-Fiction']
 
   //filter books by catagory
-  const filterBooks = (catagory?: string) => {
-    dispatch(searchBookRequest(catagory))
+  const filterBooks = (category?: string) => {
+    dispatch(searchBookRequest(category))
   }
   useEffect(() => {
     dispatch(fetchBooks())
-  }, [])
+  }, [dispatch])
   useLayoutEffect(() => {
     inputRef.current?.focus()
   })
@@ -64,13 +64,13 @@ function Home() {
           All
         </button>
 
-        {categories.map((catagory) => (
+        {categories.map((category) => (
           <button
-            key={catagory}
+            key={category}
             className="flex-none bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-4 border border-gray-400 rounded-lg mr-2"
-            onClick={() => filterBooks(catagory)}
+            onClick={() => filterBooks(category)}
           >
-            {catagory}
+            {category}
           </button>
         ))}
       </div>
@@ -83,13 +83,11 @@ function Home() {
         {books.map((book) => (
           <div key={book.bookId} className=" py-6 font-normal  ">
             <Link to={`/book/${book._id}`}>
-              <th>
-                <ImageWithFallback
-                  src={book.coverImage}
-                  alt={book.title}
-                  className="h-25 w-25"
-                />
-              </th>
+              <ImageWithFallback
+                src={book.coverImage}
+                alt={book.title}
+                className="h-25 w-25"
+              />
             </Link>
             <br />
             {book.title}

@@ -11,7 +11,7 @@ import { initialAuthorState } from './authors/authors.reducer'
 import { initialUserState } from './users/users.reducer'
 import { initialUserBooksState } from './userbooks/userBooks.reducer'
 import { initialAuthsState } from './authentic/auth.reducer.google'
-
+import { initialUserAuthsState } from './auths/auth.reducer'
 const initState: AppState = {
   product: {
     inCart: [],
@@ -21,6 +21,7 @@ const initState: AppState = {
   users: initialUserState,
   userBooks: initialUserBooksState,
   auths: initialAuthsState,
+  userAuth: initialUserAuthsState,
 }
 
 export default function makeStore(initialState = initState) {
