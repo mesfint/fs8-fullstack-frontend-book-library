@@ -42,6 +42,13 @@ const reducer = (state = initialUserAuthsState, action: AnyAction) => {
 
         loading: false,
       }
+    case authsActionTypes.USER_SIGN_IN:
+      localStorage.setItem(
+        'userProfile',
+        JSON.stringify(action?.payload)
+      )
+      console.log('data from reducer-google', action?.payload)
+      return { ...state, userData: action?.payload }
 
     default:
       return state

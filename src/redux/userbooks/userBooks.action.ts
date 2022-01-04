@@ -66,3 +66,22 @@ export const fetchUserBooks = () => {
     )
   }
 }
+
+export const borrowBook = (userBook: UserBook, history: any) => {
+  return (dispatch: Dispatch) => {
+    dispatch(borrowBookRequest())
+    return httpRequest(`/userbooks`, {
+      method: 'post',
+      body: JSON.stringify(userBook),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((book) => {
+        dispatch(borrowBookSuccess(book))
+        history('/userBooks')
+      })
+      .catch((err) => dispatch(borrowBookFailure(err)))
+  }
+}

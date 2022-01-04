@@ -85,8 +85,8 @@ const UserList: VoidFunctionComponent = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {users.users.map((user) => (
-                    <tr key={user.userId}>
+                  {users.users.map((user, index) => (
+                    <tr key={index}>
                       <td className="border-t-0 px-6 py-2 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
                         {count++}
                       </td>

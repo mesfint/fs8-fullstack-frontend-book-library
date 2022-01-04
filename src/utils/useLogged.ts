@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router'
 import { UserStorage } from '../models/User'
 
 const useLogged = () => {
-  const tokenName = 'google-profile'
+  const tokenName = 'userProfile'
   const location = useLocation()
   const history = useNavigate()
 

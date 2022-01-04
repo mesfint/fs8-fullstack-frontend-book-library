@@ -22,7 +22,7 @@ const reducer = (
     case authActionTypes.GOOGLE_LOGIN_SUCCESS:
       //data from action.payload
       localStorage.setItem(
-        'google-profile',
+        'userProfile',
         JSON.stringify({ ...action?.payload })
       )
       console.log('data from reducer-google', action?.payload)

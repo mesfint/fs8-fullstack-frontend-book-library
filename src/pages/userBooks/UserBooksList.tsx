@@ -62,8 +62,7 @@ const UserBooksList: VoidFunctionComponent = () => {
                         {count++}
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap  ">
-                        {userBook.book.title}
-                        Half of a Yellow sun
+                        {userBook.book?.title}
                       </td>
 
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap ">

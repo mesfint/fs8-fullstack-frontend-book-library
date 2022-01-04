@@ -6,7 +6,7 @@ import GoogleLogin from 'react-google-login'
 import axios from 'axios'
 import { AppState } from '../../types'
 import { editUser, registerUser } from '../../redux/users/users.action'
-import { signUpUser } from '../../redux/auths/auth.action'
+import { signInUser, signUpUser } from '../../redux/auths/auth.action'
 import Spinner from '../../components/Spinner'
 import { User } from '../../models/User'
 import ErrorMessage from '../../components/Error'
@@ -32,31 +32,27 @@ const Login: VoidFunctionComponent<FormUserType> = ({
   const dispatch = useDispatch()
   const history = useNavigate()
   const { userId } = useParams()
-  const [userFormValue, setuserFormValue] = useState<User>(user)
-  const [submitForm, setsubmitForm] = useState(false)
-  const [isSignup, setIsSignup] = useState(false)
+  const [userFormValue, setUserFormValue] = useState<User>(user)
+  const [submitForm, setSubmitForm] = useState(false)
+  const [isSignUp, setIsSignUp] = useState(false)
   const [isSignIn, setIsSignIn] = useState(false)
 
   const userSubmitForm = () => {
-    setsubmitForm(true)
+    console.log('Im in submit')
+    setSubmitForm(true)
     const isEmpty = Object.values(userFormValue).every(
       (x) => x === null || !(x as string).length || typeof x === undefined
     )
-    if (!isEmpty) {
-      if (user._id) {
-        dispatch(editUser(userFormValue, history))
-      } else {
-        dispatch(registerUser(userFormValue, history))
+    if (!isEmpty && isSignUp) {
+      console.log('I gonna call signUP')
+      if (userFormValue.password !== userFormValue.confirmPassword) {
+        alert('password not match')
+        return;
       }
-    }
-    if (userFormValue.password !== userFormValue.confirmPassword) {
-      alert('password not match')
+      dispatch(signUpUser(userFormValue, history))
     } else if (!isEmpty) {
-      if (user._id) {
-        dispatch(editUser(userFormValue, history))
-      } else {
-        dispatch(signUpUser(userFormValue, history))
-      }
+      console.log('I gonna call SignIn')
+      dispatch(signInUser(userFormValue, history))
     }
   }
   //signIn with email and password
@@ -102,8 +98,8 @@ const Login: VoidFunctionComponent<FormUserType> = ({
     }
   }
 
-  const handleIsSignup = () => {
-    setIsSignup((prevIsSignup) => !prevIsSignup)
+  const handleIsSignUp = () => {
+    setIsSignUp((prevIsSignUp) => !prevIsSignUp)
   }
 
   return (
@@ -113,14 +109,14 @@ const Login: VoidFunctionComponent<FormUserType> = ({
           <div className="flex flex-col ">
             <div className="flex flex-col sm:flex-row items-center">
               <h2 className="font-semibold text-lg mr-auto">
-                {isSignup ? 'Create account' : 'Login to your account'}
+                {isSignUp ? 'Create account' : 'Login to your account'}
               </h2>
               <div className="w-full sm:w-auto sm:ml-auto mt-3 sm:mt-0" />
             </div>
             <div className="mt-5">
               {users.error && <ErrorMessage error={users.error} />}
               <div className="form">
-                {isSignup && (
+                {isSignUp && (
                   <div className="md:flex flex-row md:space-x-4 w-full text-xs">
                     <div className="mb-3 space-y-2 w-full text-xs">
                       <label
@@ -141,7 +137,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                         id="firstName"
                         value={userFormValue?.firstName}
                         onChange={(e) =>
-                          setuserFormValue({
+                          setUserFormValue({
                             ...userFormValue,
                             firstName: e.target.value,
                           })
@@ -172,7 +168,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                         id="lastName"
                         value={userFormValue?.lastName}
                         onChange={(e) =>
-                          setuserFormValue({
+                          setUserFormValue({
                             ...userFormValue,
                             lastName: e.target.value,
                           })
@@ -203,7 +199,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                         id="userName"
                         value={userFormValue?.userName}
                         onChange={(e) =>
-                          setuserFormValue({
+                          setUserFormValue({
                             ...userFormValue,
                             userName: e.target.value,
                           })
@@ -239,7 +235,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                       id="email"
                       value={userFormValue?.email}
                       onChange={(e) =>
-                        setuserFormValue({
+                        setUserFormValue({
                           ...userFormValue,
                           email: e.target.value,
                         })
@@ -269,7 +265,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                         id="password"
                         value={userFormValue?.password}
                         onChange={(e) =>
-                          setuserFormValue({
+                          setUserFormValue({
                             ...userFormValue,
                             password: e.target.value,
                           })
@@ -282,7 +278,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                       )}
                     </label>
                   </div>
-                  {isSignup && (
+                  {isSignUp && (
                     <div className="mb-3 space-y-2 w-full text-xs">
                       <label
                         htmlFor="confirmPassword"
@@ -302,7 +298,7 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                         id="confirmPassword"
                         value={userFormValue?.confirmPassword}
                         onChange={(e) =>
-                          setuserFormValue({
+                          setUserFormValue({
                             ...userFormValue,
                             confirmPassword: e.target.value,
                           })
@@ -337,15 +333,15 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                     onClick={() => userSubmitForm()}
                     className="mb-2 md:mb-0 bg-indigo-500 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-indigo-200"
                   >
-                    {isSignup ? 'Sign Up' : 'Sign In'}
+                    {isSignUp ? 'Sign Up' : 'Sign In'}
                   </button>
                 </div>
-                {!isSignup && (
+                {!isSignUp && (
                   <h2 className="text-center mb-0 my-3 text-sm text-indigo-400">
                     OR
                   </h2>
                 )}
-                {!isSignup && (
+                {!isSignUp && (
                   <div className="flex items-center justify-center px-7 py-0 mt-4 my-4  ">
                     <GoogleLogin
                       clientId="148329150931-mk29ttpchcttfspvv66amj3ldhisvqiu.apps.googleusercontent.com"
@@ -375,8 +371,8 @@ const Login: VoidFunctionComponent<FormUserType> = ({
                   </div>
                 )}
                 <div className="flex  justify-center items-center text-sm  text-center">
-                  <button onClick={handleIsSignup}>
-                    {isSignup ? (
+                  <button onClick={handleIsSignUp}>
+                    {isSignUp ? (
                       <p>
                         Already have an account?{' '}
                         <span className="text-indigo-400">Sign In</span>

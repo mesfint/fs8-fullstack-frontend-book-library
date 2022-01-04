@@ -30,6 +30,13 @@ export const userSignIn = (authData: any) => {
   }
 }
 
+export const userSignInError = (error: any) => {
+  return {
+    type: authsActionTypes.USER_SIGN_IN_ERROR,
+    payload: error,
+  }
+}
+
 export const userSignOut = (authData: null) => {
   return {
     type: authsActionTypes.USER_SIGN_OUT,
@@ -49,28 +56,28 @@ export const signUpUser = (user: User, history: any) => {
       },
     })
       .then((user) => {
-        dispatch(userSignUpSuccess(user))
+        dispatch(userSignIn(user))
         history('/users')
       })
       .catch((err) => dispatch(userSignUpFailure()))
   }
 }
 
-// export const postBook = (book: Book, history: any) => {
-//   return (dispatch: Dispatch) => {
-//     dispatch(addBookRequest())
-//     return httpRequest(`/books`, {
-//       method: 'post',
-//       body: JSON.stringify(book),
-//       headers: {
-//         Accept: 'application/json',
-//         'Content-Type': 'application/json',
-//       },
-//     })
-//       .then((book) => {
-//         dispatch(addBookSuccess(book))
-//         history('/books')
-//       })
-//       .catch((err) => dispatch(addBookFailure(err)))
-//   }
-// }
+//sign in
+export const signInUser = (user: User, history: any) => {
+  return (dispatch: Dispatch) => {
+    return httpRequest(`/users/signin`, {
+      method: 'post',
+      body: JSON.stringify(user),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+    .then((user) => {
+      dispatch(userSignIn(user))
+      history('/users')
+    })
+    .catch((err) => dispatch(userSignInError(err)))
+  }
+}

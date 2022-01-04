@@ -1,17 +1,40 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 import { Link } from 'react-router-dom'
 import Spinner from '../../components/Spinner'
 import { Author } from '../../models/Author'
+import { borrowBook } from '../../redux/userbooks/userBooks.action'
 import { AppState } from '../../types'
+import { useNavigate } from 'react-router-dom'
+import useLogged from '../../utils/useLogged'
+import moment from 'moment'
 
 const BookDetails = () => {
   const { _id } = useParams()
+  const history = useNavigate()
+  const { user } = useLogged()
+  const dispatch = useDispatch()
 
   const book = useSelector((state: AppState) =>
     state.books?.books.find((book) => book._id === _id)
   )
+
+  const borrowBookRequest = () => {
+    if (book?._id && user?.user._id) {
+      dispatch(
+        borrowBook(
+          {
+            bookId: book?._id,
+            userId: user?.user._id,
+            borrow: true,
+            borrowDate: moment().format('L').toString(),
+          },
+          history
+        )
+      )
+    }
+  }
 
   return (
     <div>
@@ -50,12 +73,14 @@ const BookDetails = () => {
             </p>
           </div>
           <div>
-            <Link
+            <button
               className="bg-gray-500 hover:bg-indigo-400 text-white font-md py-1 px-2 rounded"
-              to={`/userBooks/BorrowBook/${book?._id}`}
+              onClick={() => {
+                borrowBookRequest()
+              }}
             >
               {book?.quantity === 0 ? 'Request it' : 'Borrow it'}
-            </Link>
+            </button>
           </div>
         </div>
 

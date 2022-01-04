@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux'
 import { User } from '../../models/User'
 import httpRequest from '../../utils/httpRequest'
+import { userSignUpFailure, userSignUpSuccess } from '../auths/auth.action'
 import { userActionTypes } from './users.types'
 
 export const fetchUsersRequest = () => {
@@ -69,33 +70,14 @@ export const registerUser = (user: User, history: any) => {
         'Content-Type': 'application/json',
       },
     })
-      .then((user) => {
-        dispatch(addUserSuccess(user))
-        history('/users')
-      })
-      .catch((err) => dispatch(addUserFailure(err)))
+    .then((user) => {
+      dispatch(userSignUpSuccess(user))
+      history('/users')
+    })
+    .catch((err) => dispatch(userSignUpFailure()))
   }
 }
 
-//sign in
-export const signInUser = (user: User, history: any) => {
-  return (dispatch: Dispatch) => {
-    dispatch(addUserRequest())
-    return httpRequest(`/users/signin`, {
-      method: 'post',
-      body: JSON.stringify(user),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((user) => {
-        dispatch(addUserSuccess(user))
-        history('/users')
-      })
-      .catch((err) => dispatch(addUserFailure(err)))
-  }
-}
 
 export const editUser = (user: User, history: any) => {
   return (dispatch: Dispatch) => {

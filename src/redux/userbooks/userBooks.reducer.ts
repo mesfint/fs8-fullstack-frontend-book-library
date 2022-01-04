@@ -41,6 +41,11 @@ const reducer = (
         loading: false,
         error: action.payload,
       }
+    case userBooksActionTypes.BORROW_BOOK_PENDING:
+      return {
+        ...state,
+        loading: true,
+      }
     default:
       return state
   }
